@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shatter Strike Chess · The Ignition Bench</title>
+<meta name="description" content="부서지는 3D 체스 — 웹 브라우저에서 바로 플레이. Shattering 3D chess, right in your browser.">
+<meta name="theme-color" content="#0d2541">
+<link rel="canonical" href="https://ignition-bench.github.io/games/shatter-strike-chess/">
+<link rel="icon" href="../../assets/icon/site-icon.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/icon/site-icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/icon/site-icon-180.png">
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;min-height:100dvh}
+  .gbar{display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));flex:none}
+  .gbar .home{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:9px;background:var(--bp);border:1px solid #a8c5ea66;text-decoration:none}
+  .gbar .home:hover,.gbar .home:focus-visible{border-color:var(--ember);box-shadow:0 0 0 2px var(--ember-bg)}
+  .gbar .tt{min-width:0;flex:1}
+  .gbar h1{margin:0;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gbar .sheet{font:600 10.5px var(--f-mono);letter-spacing:.16em;color:var(--wire);opacity:.8}
+  .gbar .btn{display:inline-flex;align-items:center;gap:6px;flex:none;height:34px;padding:0 12px;border-radius:9px;border:1px solid #a8c5ea55;background:#0d254199;color:var(--ink);font-size:13px;text-decoration:none;white-space:nowrap}
+  .gbar .btn:hover,.gbar .btn:focus-visible{border-color:var(--ember);color:#fff}
+  .gbar .lang{flex:none}
+  .stage{flex:1;display:flex;padding:0 14px 10px;min-height:0}
+  .frame{position:relative;flex:1;max-width:1400px;margin:0 auto;border:1px solid var(--wire);border-radius:10px;overflow:hidden;background:#333;box-shadow:0 0 0 4px #0d254188,0 0 28px var(--ember-bg)}
+  .frame::before{content:"";position:absolute;inset:6px;border:1px dashed #a8c5ea33;border-radius:6px;pointer-events:none;z-index:1}
+  .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;z-index:2}
+  .frame:fullscreen{border:0;border-radius:0;max-width:none}
+  .gfoot{flex:none;text-align:center;color:var(--ink-faint);font-size:12px;padding:0 14px calc(10px + env(safe-area-inset-bottom))}
+  .gfoot a{color:var(--ink-dim)}
+  @media (max-width:560px){
+    .gbar{gap:8px;padding-left:10px;padding-right:10px}
+    .gbar .sheet{display:none}
+    .gbar .btn .l{display:none}
+    .gbar .btn{padding:0 10px}
+    .stage{padding:0 6px 6px}
+    .frame{border-radius:8px}
+    .frame::before{display:none}
+  }
+</style>
+</head>
+<body>
+  <header class="gbar">
+    <a class="home" href="../../" data-ko-title="The Ignition Bench 메인으로" data-en-title="Back to The Ignition Bench" title="The Ignition Bench 메인으로"><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
+    <div class="tt">
+      <div class="sheet">SHEET 03 · GAMES</div>
+      <h1>♟ Shatter Strike Chess</h1>
+    </div>
+    <button type="button" class="btn" id="fs" data-ko-title="전체 화면" data-en-title="Fullscreen" title="전체 화면">⛶ <span class="l" data-ko="전체 화면" data-en="Fullscreen">전체 화면</span></button>
+    <a class="btn" href="https://game-of-dev.itch.io/shatter-strike-chess" target="_blank" rel="noopener" data-ko-title="itch.io 페이지에서 보기 (평점 · 댓글)" data-en-title="View on itch.io (ratings · comments)" title="itch.io 페이지에서 보기 (평점 · 댓글)">itch.io <span class="l">↗</span></a>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-l="ko" aria-pressed="true">KO</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+  </header>
+
+  <main class="stage">
+    <div class="frame" id="frame">
+      <iframe src="https://itch.io/embed-upload/20365720?color=333333" title="Shatter Strike Chess" allow="fullscreen; autoplay" allowfullscreen><a href="https://game-of-dev.itch.io/shatter-strike-chess">Play Shatter Strike Chess on itch.io</a></iframe>
+    </div>
+  </main>
+
+  <p class="gfoot"><span data-ko="게임은 itch.io에서 불러와요 · 평점 · 댓글은 " data-en="The game loads from itch.io · ratings and comments on ">게임은 itch.io에서 불러와요 · 평점 · 댓글은 </span><a href="https://game-of-dev.itch.io/shatter-strike-chess" target="_blank" rel="noopener">itch.io</a></p>
+
+<script>
+(() => {
+  const LS = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+  let lang = LS.get('ib-lang') || ((navigator.language || 'ko').toLowerCase().startsWith('ko') ? 'ko' : 'en');
+  const render = () => {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-ko]').forEach(el => { el.textContent = el.dataset[lang]; });
+    document.querySelectorAll('[data-ko-title]').forEach(el => { el.title = el.dataset[lang + 'Title']; el.setAttribute('aria-label', el.title); });
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+  };
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.l; LS.set('ib-lang', lang); render(); }));
+  render();
+  const frame = document.getElementById('frame'), fs = document.getElementById('fs');
+  const req = frame.requestFullscreen || frame.webkitRequestFullscreen;
+  if (!req) fs.hidden = true;
+  else fs.addEventListener('click', () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else req.call(frame);
+  });
+})();
+</script>
+</body>
+</html>

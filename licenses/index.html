@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>라이선스 · Licenses · The Ignition Bench</title>
+<meta name="description" content="The Ignition Bench 라이선스 안내 — 도구는 누구나 무료, 만든 결과물은 만든 사람 것, 코드 판매만 금지. License summary in plain words.">
+<meta name="theme-color" content="#0d2541">
+<link rel="canonical" href="https://ignition-bench.github.io/licenses/">
+<link rel="icon" href="../assets/icon/site-icon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icon/site-icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icon/site-icon-180.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .lbar{display:flex;align-items:center;gap:10px;padding:14px 0 6px}
+  .lbar .home{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:9px;background:var(--bp);border:1px solid #a8c5ea66;text-decoration:none}
+  .lbar .home:hover,.lbar .home:focus-visible{border-color:var(--ember);box-shadow:0 0 0 2px var(--ember-bg)}
+  .lbar .tt{flex:1;min-width:0}
+  .lbar .sheet{font:600 10.5px var(--f-mono);letter-spacing:.16em;color:var(--wire);opacity:.8}
+  .lbar h1{margin:0;font-size:20px}
+  .lic{max-width:820px;margin:0 auto;padding:0 16px 40px}
+  .lic section{border:1px solid #a8c5ea44;border-radius:12px;background:#0d2541cc;padding:16px 18px;margin:14px 0;position:relative}
+  .lic section::before{content:attr(data-sheet);position:absolute;top:-8px;left:14px;background:var(--bp);padding:0 6px;font:600 10px var(--f-mono);letter-spacing:.14em;color:var(--ink-faint)}
+  .lic h2{margin:2px 0 10px;font-size:17px}
+  .lic p{margin:6px 0;color:var(--ink)}
+  .lic .dim{color:var(--ink-dim);font-size:13.5px}
+  .rules{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .rules li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:#11304f;border:1px solid #a8c5ea22}
+  .rules .mk{flex:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-weight:800}
+  .rules .ok .mk{background:#4fd1a922;color:#4fd1a9;border:1px solid #4fd1a966}
+  .rules .no .mk{background:#ff7a2f22;color:var(--ember-hi);border:1px solid #ff7a2f66}
+  .rules b{color:#fff}
+  table.tp{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.tp th,table.tp td{text-align:left;padding:7px 8px;border-bottom:1px solid #a8c5ea22;vertical-align:top}
+  table.tp th{color:var(--ink-dim);font-weight:600;font-size:12.5px}
+  .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .files a{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:9px;border:1px solid #a8c5ea55;background:#0d2541;text-decoration:none;font-size:13px}
+  .files a:hover,.files a:focus-visible{border-color:var(--ember)}
+  .note{font-size:12.5px;color:var(--ink-faint);margin-top:18px;text-align:center}
+  [data-show]{display:none}
+  html[lang=ko] [data-show=ko], html[lang=en] [data-show=en]{display:revert}
+  @media (max-width:560px){ .lbar .sheet{display:none} .lic section{padding:14px} table.tp{font-size:12.5px} }
+</style>
+</head>
+<body>
+<div class="lic">
+  <header class="lbar">
+    <a class="home" href="../" data-ko-title="The Ignition Bench 메인으로" data-en-title="Back to The Ignition Bench" title="The Ignition Bench 메인으로"><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
+    <div class="tt"><div class="sheet">SHEET L · LICENSES</div><h1 data-ko="라이선스 안내" data-en="Licenses">라이선스 안내</h1></div>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-l="ko" aria-pressed="true">KO</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+  </header>
+
+  <section data-sheet="01 · IN SHORT">
+    <h2 data-ko="한눈에 보기" data-en="In short">한눈에 보기</h2>
+    <ul class="rules">
+      <li class="ok"><span class="mk">✓</span><div data-show="ko"><b>도구는 누구나 무료로 써요.</b> 개인 · 학교 · 회사 일 모두 괜찮아요. 로그인도 없어요.</div><div data-show="en"><b>Anyone can use the tools for free</b> — for personal, school or work projects. No sign-in.</div></li>
+      <li class="ok"><span class="mk">✓</span><div data-show="ko"><b>도구로 만든 결과물은 만든 사람 것이에요.</b> 효과음 · 도면 · 영상 등을 게임이나 영상에 <b>상업적으로</b> 써도 돼요.</div><div data-show="en"><b>What you make with the tools is yours.</b> Sounds, plans, videos — use them in your games and videos, <b>commercially too</b>.</div></li>
+      <li class="ok"><span class="mk">✓</span><div data-show="ko"><b>코드를 보고 · 배우고 · 고쳐 봐도 돼요.</b> 고친 것을 돈 받지 않고 나눠도 돼요.</div><div data-show="en"><b>You may read, learn from and modify the code</b>, and share your changes for free.</div></li>
+      <li class="no"><span class="mk">✕</span><div data-show="ko"><b>코드를 가져가 파는 건 안 돼요.</b> 이름만 바꿔 유료로 팔거나 상업 제품에 넣는 것 등.</div><div data-show="en"><b>You may not sell the code</b> — e.g. renaming it as a paid product or building it into a commercial product.</div></li>
+    </ul>
+  </section>
+
+  <section data-sheet="02 · SITE & TOOL CODE">
+    <h2 data-ko="사이트 · 도구 코드" data-en="Site and tool code">사이트 · 도구 코드</h2>
+    <p data-show="ko"><b>PolyForm Noncommercial License 1.0.0</b> · © 2026 The Ignition Bench</p>
+    <p data-show="en"><b>PolyForm Noncommercial License 1.0.0</b> · © 2026 The Ignition Bench</p>
+    <p class="dim" data-show="ko">소스는 누구나 볼 수 있지만(소스 공개), 판매를 막기 때문에 공식적인 「오픈소스」는 아니에요. 이 제한은 <b>코드</b>에만 걸리고, 도구로 만든 결과물에는 걸리지 않아요.</p>
+    <p class="dim" data-show="en">The source is public (source-available), but since selling is not allowed it is not "open source" in the official sense. The limit applies to the <b>code</b> only — never to what you make with the tools.</p>
+    <div class="files"><a href="../LICENSE" target="_blank" rel="noopener">📄 LICENSE</a></div>
+  </section>
+
+  <section data-sheet="03 · SOUND LIBRARY">
+    <h2 data-ko="효과음 창고" data-en="Sound library">효과음 창고</h2>
+    <p data-show="ko">창고의 소리는 <b>모두 CC0 1.0</b>(퍼블릭 도메인)이에요 — 받아 온 소리도, 우리가 만든 소리도. 상업적으로 써도 되고 <b>출처 표기도 필요 없어요.</b> (Kenney 등 출처는 고마운 마음으로 창고의 CREDITS에 적어 둬요.)</p>
+    <p data-show="en">Every sound in the library is <b>CC0 1.0</b> (public domain) — both the ones we collected and the ones we made. Use them commercially, <b>no credit required.</b> (We still thank sources such as Kenney in the library's CREDITS.)</p>
+    <p class="dim" data-show="ko">작업대에서 내 녹음이나 다른 곳의 소리를 다듬었다면, 그 재료의 원래 라이선스를 따라 주세요.</p>
+    <p class="dim" data-show="en">If you edit your own recordings or sounds from elsewhere in the workbench, follow that material's original license.</p>
+  </section>
+
+  <section data-sheet="04 · THIRD PARTY">
+    <h2 data-ko="함께 쓴 바깥 코드" data-en="Third-party code">함께 쓴 바깥 코드</h2>
+    <table class="tp">
+      <thead><tr><th data-ko="이름" data-en="Name">이름</th><th data-ko="라이선스" data-en="License">라이선스</th><th data-ko="쓰는 곳" data-en="Used in">쓰는 곳</th></tr></thead>
+      <tbody>
+        <tr><td>three.js r128 · OrbitControls</td><td>MIT</td><td data-ko="기획 도구 · Director's Desk (3D)" data-en="Planner · Director's Desk (3D)">기획 도구 · Director's Desk (3D)</td></tr>
+        <tr><td>AMD FidelityFX FSR 1</td><td>MIT</td><td data-ko="3D 화면 선명하게" data-en="3D upscaling">3D 화면 선명하게</td></tr>
+        <tr><td>gfx-kit.js</td><td>MIT</td><td data-ko="그래픽 최적화 키트 (우리가 만들고 MIT로 열어 둠)" data-en="Graphics kit (ours, kept open under MIT)">그래픽 최적화 키트 (우리가 만들고 MIT로 열어 둠)</td></tr>
+        <tr><td>lamejs 1.2.1 (LAME)</td><td>LGPL-3.0</td><td data-ko="사운드 작업대 MP3 저장 (수정 없이 따로 들어 있음)" data-en="Sound Workbench MP3 export (included unmodified)">사운드 작업대 MP3 저장 (수정 없이 따로 들어 있음)</td></tr>
+        <tr><td>Universal Category System (UCS)</td><td data-ko="퍼블릭 도메인" data-en="Public domain">퍼블릭 도메인</td><td data-ko="효과음 분류 이름" data-en="Sound category names">효과음 분류 이름</td></tr>
+      </tbody>
+    </table>
+    <div class="files">
+      <a href="../THIRD-PARTY-NOTICES.txt" target="_blank" rel="noopener">📄 THIRD-PARTY-NOTICES</a>
+      <a href="LGPL-3.0.txt" target="_blank" rel="noopener">📄 LGPL-3.0</a>
+      <a href="GPL-3.0.txt" target="_blank" rel="noopener">📄 GPL-3.0</a>
+    </div>
+  </section>
+
+  <p class="note" data-ko="이 페이지는 이해를 돕는 쉬운 설명이에요. 법적인 내용은 원문(LICENSE)이 기준이에요." data-en="This page is a plain-language summary. The license texts (LICENSE) are what legally apply.">이 페이지는 이해를 돕는 쉬운 설명이에요. 법적인 내용은 원문(LICENSE)이 기준이에요.</p>
+</div>
+<script>
+(() => {
+  const LS = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+  let lang = LS.get('ib-lang') || ((navigator.language || 'ko').toLowerCase().startsWith('ko') ? 'ko' : 'en');
+  const render = () => {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-ko]').forEach(el => { el.textContent = el.dataset[lang]; });
+    document.querySelectorAll('[data-ko-title]').forEach(el => { el.title = el.dataset[lang + 'Title']; el.setAttribute('aria-label', el.title); });
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+  };
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.l; LS.set('ib-lang', lang); render(); }));
+  render();
+})();
+</script>
+</body>
+</html>

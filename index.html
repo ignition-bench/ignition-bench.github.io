@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Ignition Bench</title>
+<meta name="description" content="AI와 이야기하기 위한 작업대 — 기획 도구 · Director's Desk · 사운드 작업대. 로그인 없이 브라우저에서 바로 써요.">
+<meta name="theme-color" content="#0d2541">
+<link rel="canonical" href="https://ignition-bench.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Ignition Bench">
+<meta property="og:description" content="AI와 이야기하기 위한 작업대 · Tools for talking with your AI">
+<meta property="og:url" content="https://ignition-bench.github.io/">
+<meta property="og:image" content="https://ignition-bench.github.io/assets/icon/site-icon-512.png">
+<link rel="icon" href="assets/icon/site-icon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icon/site-icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon/site-icon-180.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main" data-ko="본문으로" data-en="Skip to content">본문으로</a>
+
+<div class="minibar" id="minibar" hidden>
+  <div class="wrap mb-in">
+    <button type="button" class="mb-top" id="mbTop" data-ko-title="맨 위로" data-en-title="Back to top"><img src="assets/icon/site-icon.svg" alt="" width="28" height="28"><span>The Ignition Bench</span></button>
+    <nav class="jump mb-jump" aria-label="목적별">
+      <a href="#g-ai">💬 <span class="l" data-ko="AI 소통 기획" data-en="AI planning">AI 소통 기획</span><span class="s" data-ko="AI 기획" data-en="AI">AI 기획</span></a>
+      <a href="#g-tool">🛠 <span class="l" data-ko="생산성 프로그램" data-en="Productivity">생산성 프로그램</span><span class="s" data-ko="생산성" data-en="Tools">생산성</span></a>
+      <a href="#g-game">🎮 <span data-ko="게임" data-en="Games">게임</span></a>
+      <a href="#g-read">📰 <span data-ko="읽을거리" data-en="Reading">읽을거리</span></a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-l="ko" aria-pressed="true">KO</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <img class="mark" src="assets/icon/site-icon.svg" alt="" width="46" height="46">
+      <div class="txt">
+        <h1>The Ignition Bench</h1>
+        <p data-ko="AI와 이야기하기 위한 작업대 · 로그인 없이 바로" data-en="A workbench for talking with your AI · no sign-in">AI와 이야기하기 위한 작업대 · 로그인 없이 바로</p>
+      </div>
+      <div class="devline" id="devline" aria-live="polite">
+        <span class="ic" id="devIc" aria-hidden="true">🖥</span><span id="devTx"></span>
+        <button type="button" id="devBtn" hidden></button>
+      </div>
+      <div class="lang" role="group" aria-label="Language"><button type="button" data-l="ko" aria-pressed="true">KO</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+    </div>
+
+    <nav class="jump" aria-label="목적별">
+      <a href="#g-ai">💬 <span data-ko="AI 소통 기획" data-en="AI planning">AI 소통 기획</span></a>
+      <a href="#g-tool">🛠 <span data-ko="생산성 프로그램" data-en="Productivity">생산성 프로그램</span></a>
+      <a href="#g-game">🎮 <span data-ko="게임" data-en="Games">게임</span></a>
+      <a href="#g-read">📰 <span data-ko="읽을거리" data-en="Reading">읽을거리</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="grp" id="g-ai" data-sheet="SHEET 01 · AI PLANNING">
+      <div class="ghead"><h2>💬 <span data-ko="AI 소통 기획 도구" data-en="AI planning tools">AI 소통 기획 도구</span></h2>
+        <p data-ko="생각을 그림 · 장면으로 만들어 내 AI에게 정확히 전해요" data-en="Turn ideas into plans and scenes your AI can read">생각을 그림 · 장면으로 만들어 내 AI에게 정확히 전해요</p></div>
+      <div class="cards">
+        <article class="card" data-dev="phone tablet pc" style="--t:var(--t-plan)">
+          <div class="body"><div class="ico" aria-hidden="true">📐</div><div>
+            <h3 data-ko="기획 도구" data-en="Planner">기획 도구</h3>
+            <p class="desc" data-ko="상자와 선으로 아이디어 도면 · 화면 설계 → AI에게 넘길 글로" data-en="Sketch ideas and screens with boxes and lines, then hand them to your AI">상자와 선으로 아이디어 도면 · 화면 설계 → AI에게 넘길 글로</p></div></div>
+          <div class="foot"><div class="devs"></div><span class="sp"></span><a class="open" href="planner/" data-ko="열기 →" data-en="Open →">열기 →</a></div>
+          <div class="why"></div>
+        </article>
+        <article class="card" data-dev="pc" style="--t:var(--t-dd)">
+          <div class="body"><div class="ico" aria-hidden="true">🎬</div><div>
+            <h3>Director's Desk</h3>
+            <p class="desc" data-ko="배우 · 세트 · 카메라로 한 장면을 연출 · 촬영하고 감독 노트로 정리" data-en="Block, shoot and annotate a scene with actors, sets and cameras">배우 · 세트 · 카메라로 한 장면을 연출 · 촬영하고 감독 노트로 정리</p></div></div>
+          <div class="foot"><div class="devs"></div><span class="sp"></span><a class="open" href="directors-desk/" data-ko="열기 →" data-en="Open →">열기 →</a></div>
+          <div class="why"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grp" id="g-tool" data-sheet="SHEET 02 · PRODUCTIVITY">
+      <div class="ghead"><h2>🛠 <span data-ko="생산성 프로그램" data-en="Productivity tools">생산성 프로그램</span></h2>
+        <p data-ko="게임 · 영상에 쓸 재료를 직접 다듬어요" data-en="Shape the raw material for games and videos">게임 · 영상에 쓸 재료를 직접 다듬어요</p></div>
+      <div class="cards">
+        <article class="card" data-dev="tablet pc" style="--t:var(--t-snd)">
+          <div class="body"><div class="ico" aria-hidden="true">🔊</div><div>
+            <h3 data-ko="사운드 작업대" data-en="Sound Workbench">사운드 작업대</h3>
+            <p class="desc" data-ko="🤖 내 AI에게 레시피를 받아 효과음 만들기 · 무료 효과음 창고 · 자르기 · 효과" data-en="Make sound effects from AI recipes · free sound library · trim · effects">🤖 내 AI에게 레시피를 받아 효과음 만들기 · 무료 효과음 창고 · 자르기 · 효과</p></div></div>
+          <div class="foot"><div class="devs"></div><span class="sp"></span><a class="open" href="sound-workbench/" data-ko="열기 →" data-en="Open →">열기 →</a></div>
+          <div class="why"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grp" id="g-game" data-sheet="SHEET 03 · GAMES">
+      <div class="ghead"><h2>🎮 <span data-ko="게임" data-en="Games">게임</span></h2>
+        <p data-ko="웹 브라우저에서 바로 플레이 · itch.io에도 있어요" data-en="Play right in your browser · also on itch.io">웹 브라우저에서 바로 플레이 · itch.io에도 있어요</p></div>
+      <div class="cards rail" data-rail>
+        <article class="card" data-dev="phone tablet pc" style="--t:var(--t-game)">
+          <div class="body"><div class="ico" aria-hidden="true">♟</div><div>
+            <h3>Shatter Strike Chess</h3>
+            <p class="desc" data-ko="부서지는 3D 체스 · 웹 브라우저에서" data-en="Shattering 3D chess in your browser">부서지는 3D 체스 · 웹 브라우저에서</p></div></div>
+          <div class="foot"><div class="devs"></div><span class="sp"></span><a class="open" href="games/shatter-strike-chess/" data-ko="▶ 플레이" data-en="▶ Play">▶ 플레이</a></div>
+          <div class="why"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grp" id="g-read" data-sheet="SHEET 04 · READING">
+      <div class="ghead"><h2>📰 <span data-ko="읽을거리" data-en="Reading">읽을거리</span></h2>
+        <p data-ko="AI · 문화 · 만드는 이야기" data-en="AI, culture and making things">AI · 문화 · 만드는 이야기</p></div>
+      <div class="cards">
+        <article class="card" data-dev="phone tablet pc" style="--t:var(--t-read)">
+          <div class="body"><div class="ico" aria-hidden="true">✍</div><div>
+            <h3>Do Think Review</h3>
+            <p class="desc" data-ko="AI · 문화 · 사회 블로그" data-en="Blog on AI, culture and society">AI · 문화 · 사회 블로그</p></div></div>
+          <div class="foot"><div class="devs"></div><span class="sp"></span><a class="open" href="https://do-think-review.blogspot.com/" target="_blank" rel="noopener" data-ko="블로그 ↗" data-en="Blog ↗">블로그 ↗</a></div>
+          <div class="why"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span data-ko="🔒 로그인 없음 · 내 데이터를 걷지 않아요" data-en="🔒 No sign-in · we collect no data">🔒 로그인 없음 · 내 데이터를 걷지 않아요</span>
+      <span data-ko="🤖 도구는 AI 크레딧을 쓰지 않아요 — 각자 개인 AI 플랜을 가져와 사용하면 돼요" data-en="🤖 Tools use no AI credits — just bring your own AI plan">🤖 도구는 AI 크레딧을 쓰지 않아요 — 각자 개인 AI 플랜을 가져와 사용하면 돼요</span>
+    </div>
+    <div class="row" style="margin-top:4px">
+      <span>© 2026 The Ignition Bench</span>
+      <a class="fl" href="licenses/" data-ko="라이선스" data-en="Licenses">라이선스</a>
+      <a class="fl" href="https://github.com/ignition-bench" target="_blank" rel="noopener">GitHub ↗</a>
+      <button type="button" id="replay" data-ko="▶ 인트로 다시 보기" data-en="▶ Replay intro">▶ 인트로 다시 보기</button>
+    </div>
+  </footer>
+</div>
+
+<script src="assets/intro.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>

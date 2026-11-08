@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Director's Desk v0.9.1.3 — 감독 노트</title>
+<link rel="stylesheet" href="core/style.css">
+<link rel="stylesheet" href="edit/editor.css">
+</head>
+<body>
+<div id="app">
+  <div id="ed-screen">
+    <div id="ed-top">
+      <div class="ed-files">
+        <button type="button" id="ed-open" class="c-get" data-i18n="edOpen"></button>
+        <button type="button" id="ed-open-file" class="ed-open-file" data-i18n="edOpenFile" data-i18n-title="edOpenFileTitle"></button>
+        <button type="button" id="ed-save" class="c-save" data-i18n="edSave" data-i18n-title="edSaveTitle"></button>
+        <button type="button" id="ed-root" class="c-view" hidden></button>
+        <span id="ed-name"></span>
+      </div>
+      <div class="ed-right">
+        <label class="ed-who" data-i18n-title="edWhoTitle"><span data-i18n="edWho"></span><input id="ed-who" type="text" maxlength="20" data-i18n-ph="edWhoPh"></label>
+        <button type="button" id="lang-toggle" class="c-view"></button>
+      </div>
+    </div>
+    <div id="ed-main">
+      <div id="ed-left">
+        <div id="ed-stage">
+          <video id="ed-video" playsinline preload="auto"></video>
+          <div id="ed-drop"><b data-i18n="edDropTitle"></b><span data-i18n-html="edDropSub"></span></div>
+          <div id="ed-hint" hidden><span data-i18n="edHintNoMemo"></span><button type="button" id="ed-hint-pick" class="c-get" data-i18n="edHintPick"></button><button type="button" id="ed-hint-x" class="ed-hint-x">✕</button></div>
+          <div id="ed-dragover"></div>
+        </div>
+        <div id="ed-ctrl">
+          <span class="mot-grp">
+            <button type="button" id="ed-start" class="c-edit" data-i18n-title="edStart">⏮</button>
+            <button type="button" id="ed-play" class="c-edit" data-i18n-title="edPlayTitle"></button>
+            <button type="button" id="ed-end" class="c-edit" data-i18n-title="edEnd">⏭</button>
+            <select id="ed-rate" class="c-edit"><option value="0.25">×0.25</option><option value="0.5">×0.5</option><option value="1" selected>×1</option><option value="2">×2</option></select>
+            <span id="ed-time">0:00.0 / 0:00.0</span>
+          </span>
+          <button type="button" id="ed-mark" class="c-make" data-i18n="edMark" data-i18n-title="edMarkTitle"></button>
+          <button type="button" id="ed-scene" class="c-make" data-i18n="edScene" data-i18n-title="edSceneTitle"></button>
+          <span id="ed-hint" data-i18n="edHint"></span>
+        </div>
+        <div id="ed-tl">
+          <div class="ed-lane" id="ed-lane-cut"><span class="ed-lab" data-i18n="edLaneCut"></span><div class="ed-track" id="ed-cuts"></div></div>
+          <div class="ed-lane" id="ed-lane-time"><span class="ed-lab" data-i18n="edLaneTime"></span><div class="ed-track" id="ed-ruler"></div></div>
+          <div class="ed-lane" id="ed-lane-mk"><span class="ed-lab" data-i18n="edLaneMk"></span><div class="ed-track" id="ed-marks"></div></div>
+          <div id="ed-head"></div>
+        </div>
+      </div>
+      <div id="ed-side">
+        <div class="ed-side-head"><b data-i18n="edListTitle"></b><small id="ed-count"></small></div>
+        <div id="ed-tabs"><button type="button" data-tab="mark" class="c-view"><span data-i18n="edTabMark"></span> <small id="ed-n-mark"></small></button><button type="button" data-tab="scene" class="c-view"><span data-i18n="edTabScene"></span> <small id="ed-n-scene"></small></button></div>
+        <fieldset id="ed-find">
+          <legend data-i18n="edFindLegend"></legend>
+          <div id="ed-findrow"><input id="ed-search" type="text" data-i18n-ph="edSearchPh"><button type="button" id="ed-cond-btn" class="c-view" data-i18n-title="edCondTitle"><span id="ed-cond-lab"></span><i id="ed-cond-dot"></i></button></div>
+          <div id="ed-cond">
+            <div class="ed-cond-head"><b data-i18n="edCondHead"></b><button type="button" id="ed-cond-help" class="ed-help" data-i18n-title="edCondHelpTitle">?</button></div>
+            <div id="ed-filter"><button type="button" class="ed-chip all" data-star="all"></button><button type="button" class="ed-chip s3" data-star="3"></button><button type="button" class="ed-chip s2" data-star="2"></button><button type="button" class="ed-chip s1" data-star="1"></button><button type="button" class="ed-chip s0" data-star="0"></button></div>
+          </div>
+          <div id="ed-result" hidden></div>
+          <button type="button" id="ed-del-shown" class="c-del"></button>
+        </fieldset>
+        <div id="ed-help-card" hidden>
+          <div class="ed-hc-head"><b data-i18n="edHelpHead"></b><button type="button" id="ed-help-x">✕</button></div>
+          <div class="ed-hc-body" data-i18n-html="edHelpBody"></div>
+          <div class="ed-hc-leg"><b data-i18n="edLegend"></b><small data-i18n="edLegendSub"></small></div>
+          <div id="ed-legend"><label class="s3"><b>★★★</b><input type="text" data-star="3" maxlength="40"></label><label class="s2"><b>★★</b><input type="text" data-star="2" maxlength="40"></label><label class="s1"><b>★</b><input type="text" data-star="1" maxlength="40"></label></div>
+        </div>
+        <div id="ed-list"></div>
+      </div>
+    </div>
+  </div>
+  <div id="sm-modal" hidden>
+    <div id="sm-box">
+      <div id="sm-head"><b data-i18n="smTitle"></b><span id="sm-when"></span><span class="sm-sp"></span><span id="sm-stars" class="ed-stars"></span><button type="button" id="sm-close" class="c-save" data-i18n="smDone"></button></div>
+      <div id="sm-tools"><button type="button" id="sm-add" class="c-make" data-i18n="smAdd" data-i18n-title="smAddTitle"></button>
+        <span id="sm-note-tools" hidden><span class="sm-lab" data-i18n="smSize"></span><span class="sm-seg" id="sm-size"><button type="button" data-v="s" data-i18n="smS"></button><button type="button" data-v="m" data-i18n="smM"></button><button type="button" data-v="l" data-i18n="smL"></button></span><span class="sm-lab" data-i18n="smAlign"></span><span class="sm-seg" id="sm-align"><button type="button" data-v="left" data-i18n-title="smAL">⇤</button><button type="button" data-v="center" data-i18n-title="smAC">↔</button><button type="button" data-v="right" data-i18n-title="smAR">⇥</button></span><button type="button" id="sm-del" class="c-del" data-i18n="smDel"></button></span>
+        <span id="sm-hint" data-i18n="smHint"></span></div>
+      <div id="sm-stage"><div id="sm-sheet"><div id="sm-band"></div><div id="sm-pic"><img id="sm-img" alt=""><svg id="sm-lines"></svg><div id="sm-notes"></div></div></div></div>
+    </div>
+  </div>
+  <div id="ed-tip" hidden><b></b><span></span></div>
+  <div id="ed-confirm" hidden><div id="ed-confirm-box"><b id="ed-confirm-title"></b><p id="ed-confirm-body"></p><div id="ed-confirm-btns"></div></div></div>
+  <div id="toast"></div>
+  <input type="file" id="ed-file" multiple accept="video/*,.mp4,.webm,.mov,.json" hidden>
+  <input type="file" id="ed-file-v" accept="video/*,.mp4,.webm,.mov,.m4v" hidden>
+  <input type="file" id="ed-file-j" multiple accept=".json" hidden>
+</div>
+<script>window.DD_PAGE = "edit";</script>
+<script src="core/text.js"></script>
+<script src="core/save.js"></script>
+<script src="core/mp4fix.js"></script>
+<script src="core/app.js"></script>
+<script src="core/flow.js"></script>
+<script src="edit/editor.js"></script>
+<script src="edit/scenememo.js"></script>
+<script src="edit/savepack.js"></script>
+</body>
+</html>

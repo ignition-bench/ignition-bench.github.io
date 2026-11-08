@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Director's Desk v0.9.1.3</title>
+<link rel="stylesheet" href="core/style.css">
+</head>
+<body>
+<div id="app">
+
+  <div id="start-screen">
+    <button id="start-lang" class="start-lang c-view">🌐 EN</button>
+    <a id="ib-home" class="ib-home" href="../" data-i18n-title="ibHome" aria-label="The Ignition Bench" hidden><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
+    <div class="start-box">
+      <h1>Director's Desk</h1>
+      <div class="start-sub" data-i18n="startSub"></div>
+      <div id="pc-only" class="pc-only" hidden><b data-i18n="pcOnlyT"></b><span data-i18n="pcOnlyS"></span></div>
+      <div class="start-menu">
+        <button id="menu-actor" class="menu-item"><b data-i18n="menuActor"></b><span data-i18n="menuActorSub"></span></button>
+        <button id="menu-set" class="menu-item"><b data-i18n="menuSet"></b><span data-i18n="menuSetSub"></span></button>
+        <button id="menu-edit" class="menu-item"><b data-i18n="menuEdit"></b><span data-i18n="menuEditSub"></span></button>
+      </div>
+      <div class="level-pick">
+        <div class="level-row"><span class="level-q" data-i18n="levelQ"></span>
+          <button id="lv-beginner" class="lv-btn" data-i18n="lvBeginner"></button><button id="lv-expert" class="lv-btn" data-i18n="lvExpert"></button></div>
+        <div id="level-desc"></div>
+      </div>
+      <div class="recent">
+        <div class="recent-title" data-i18n="recentTitle"></div>
+        <div id="recent-list"></div>
+        <div id="recent-none" data-i18n="recentNone"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="actor-screen" hidden>
+    <div id="actor-view"></div>
+    <div id="actor-top">
+      <button id="pose-save" class="c-save" data-i18n="poseSave"></button>
+      <button id="pose-open" class="c-get" data-i18n="poseOpen"></button>
+      <select id="pose-preset" class="c-get"></select>
+      <button id="free-range" class="c-edit" data-i18n-title="freeTitle"></button>
+      <button id="tut-start" class="c-make" data-i18n="tutBtn" data-i18n-title="tutBtnTitle"></button>
+      <button id="photo-open" class="c-get" data-i18n="photoOpen" data-i18n-title="photoOpenTitle"></button>
+      <button id="photo-sample" class="c-get" data-i18n="photoSample" data-i18n-title="photoSampleTitle"></button>
+      <button id="pose-undo" data-i18n-title="undoTitle">↶</button>
+      <button id="pose-redo" data-i18n-title="redoTitle">↷</button>
+      <input id="photo-input" type="file" accept="image/*" hidden>
+    </div>
+    <div id="photo-bar" hidden>
+      <span id="photo-tip" data-i18n-html="photoTip"></span>
+      <label data-i18n="photoOpacity"></label>
+      <input id="photo-op" type="range" min="10" max="100" step="5" value="55" data-i18n-title="photoOpacity">
+      <button id="photo-close" class="c-del" data-i18n="photoClose"></button>
+    </div>
+    <div id="rig-step" hidden></div>
+    <div id="actor-top-right">
+      <button id="actor-lang" class="c-view">🌐 EN</button>
+      <button id="view-front" class="c-view" data-i18n="viewFront" data-i18n-title="viewFrontTitle"></button>
+      <button id="view-side" class="c-view" data-i18n="viewSide" data-i18n-title="viewSideTitle"></button>
+      <button id="view-top" class="c-view" data-i18n="viewTop" data-i18n-title="viewTopTitle"></button>
+      <button id="actor-reset-view" class="c-view" data-i18n="resetView"></button>
+    </div>
+    <div id="joint-panel"></div>
+    <div id="actor-hint" data-i18n="actorHint"></div>
+    <div id="actor-toast" class="toast-a"></div>
+    <div id="actor-hover" hidden></div>
+    <input type="file" id="pose-input" accept="application/json" hidden>
+    <div id="motion-bar" class="empty">
+      <div class="mot-row">
+        <span class="mot-grp g-get"><button id="mot-lib" class="mot-lib c-get" data-i18n-title="motLibTitle"><span data-i18n="motLib"></span></button><button id="mot-pack" class="c-get" data-i18n-title="motPackTitle"><span data-i18n="motPack"></span> <b id="mot-pack-n"></b></button></span>
+        <span class="mot-grp g-play"><button id="mot-start" class="c-edit" data-i18n-title="motStart">⏮</button><button id="mot-play" class="mot-play c-edit" data-i18n-title="motPlay">▶ (Space)</button><button id="mot-end" class="c-edit" data-i18n-title="motEnd">⏭</button><button id="mot-loop" class="c-edit" data-i18n="motLoop" data-i18n-title="motLoopTitle"></button><select id="mot-speed" class="c-edit" data-i18n-title="motSpeedTitle"><option value="0.25">×0.25</option><option value="0.5">×0.5</option><option value="1" selected>×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select><div id="mot-time">0.00s / 2.00s</div></span>
+        <span class="mot-grp g-make"><button id="mot-add" class="mot-add c-make" data-i18n-title="motAddTitle"></button><button id="mot-dup" class="c-make" data-i18n="motDup" data-i18n-title="motDupTitle"></button></span>
+        <span class="mot-grp g-edit"><select id="mot-ease" class="c-edit" data-i18n-title="motEaseTitle"></select><button id="mot-onion" class="c-edit" data-i18n="motOnion" data-i18n-title="motOnionTitle"></button><button id="mot-mirror" class="c-edit" data-i18n="motMirror" data-i18n-title="motMirrorTitle"></button><label class="mot-dur"><span data-i18n="motDur"></span><input id="mot-dur" type="number" min="0.1" max="60" step="0.1">s</label><label class="mot-stretch" data-i18n-title="motStretchTitle"><input id="mot-stretch" type="checkbox"><span data-i18n="motStretch"></span></label></span>
+        <button id="mot-lock" class="c-make" hidden data-i18n="motLock" data-i18n-title="motLockTitle"></button><span class="mot-grp g-del"><button id="mot-del" class="c-del" data-i18n="motDel" data-i18n-title="motDelTitle"></button><button id="mot-clear" class="c-del" data-i18n="motClearBtn" data-i18n-title="motClearTitle"></button></span>
+        <span class="mot-grp g-save"><input id="mot-name" type="text" maxlength="40" data-i18n-title="motNameTitle"><button id="mot-save" class="c-save" data-i18n="motSave" data-i18n-title="motSaveTitle"></button></span>
+      </div>
+      <div id="lib-panel" hidden>
+        <div class="pk-head"><button type="button" id="lib-back" hidden>←</button><b id="lib-title"></b><button type="button" id="lib-close">✕</button></div>
+        <div id="lib-body"></div>
+      </div>
+      <div id="pack-panel" hidden>
+        <div class="pk-head"><b data-i18n="packTitle"></b><button type="button" id="pack-close">✕</button></div>
+        <div class="pk-desc" data-i18n="packDesc"></div>
+        <label class="pk-lab"><span data-i18n="packNameLab"></span><input id="pack-name" type="text" maxlength="40"></label>
+        <div class="pk-btns">
+          <button type="button" id="pack-add" class="c-save" data-i18n="packAdd" data-i18n-title="packAddTitle"></button>
+          <button type="button" id="pack-open" class="c-get" data-i18n="packOpen" data-i18n-title="packOpenTitle"></button>
+          <button type="button" id="pack-save" class="c-save" data-i18n="packSave" data-i18n-title="packSaveTitle"></button>
+        </div>
+        <div id="pack-list"></div>
+        <div class="pk-hint" data-i18n="packLibHint"></div>
+        <input type="file" id="pack-input" accept=".json,application/json" multiple hidden>
+      </div>
+      <div id="strip-bar" hidden>
+        <span class="sb-tools"><button id="strip-tool-select" class="c-edit on" data-i18n="stripToolSelect" data-i18n-title="stripToolSelectTitle"></button><button id="strip-remove" class="c-del" data-i18n="stripToolDel" data-i18n-title="stripToolDelTitle"></button></span>
+        <b class="sb-title" data-i18n="stripTitle"></b>
+        <span id="strip-sel"></span>
+        <span class="sb-grp"><span data-i18n="stripReps"></span><button id="strip-rep-dn" class="c-edit">−</button><b id="strip-reps">1</b><button id="strip-rep-up" class="c-edit">＋</button></span>
+        <label class="sb-grp"><span data-i18n="stripSpeed"></span><select id="strip-speed" class="c-edit"><option value="0.5">×0.5</option><option value="0.75">×0.75</option><option value="1">×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select></label>
+        <button id="strip-left" class="c-edit" data-i18n-title="stripLeftTitle">◀</button><button id="strip-right" class="c-edit" data-i18n-title="stripRightTitle">▶</button>
+        <div style="flex:1"></div>
+        <button id="strip-bake" class="c-make" data-i18n="stripBake" data-i18n-title="stripBakeTitle"></button>
+        <button id="strip-clear" class="c-del" data-i18n="stripClear"></button>
+      </div>
+      <div id="mot-strip" hidden><div id="strip-blocks"></div><div id="strip-drop" hidden></div></div>
+      <div id="mot-track">
+        <div id="mot-ruler"></div>
+        <div id="mot-keys"></div>
+        <div id="mot-head"></div>
+        <div id="mot-empty" data-i18n="motEmpty"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="set-screen">
+    <aside id="set-side">
+     <div id="set-side-scroll">
+      <label class="set-name"><span data-i18n="setNameLab"></span><input id="set-name" type="text" maxlength="30" data-i18n-ph="setNamePh"></label>
+      <div class="ss-sec ss-file" id="top-actions">
+        <button id="save-btn" class="c-save ic-btn" data-tip="saveBtn" data-i18n-title="saveBtnTitle">💾</button>
+        <button id="open-btn" class="c-get ic-btn" data-tip="openBtn" data-i18n-title="openBtnTitle">📂</button>
+        <div id="export-wrap">
+          <button type="button" id="export-btn" class="c-save ic-btn" data-tip="exportBtn" data-i18n-title="exportTitle">📤</button>
+        </div>
+      </div>
+      <hr class="ss-div">
+      <div class="ss-sec">
+        <div class="ss-title ss-title-btn"><span data-i18n="ssTools"></span><button type="button" id="board-size-btn" class="c-edit ic-btn ic-sm" data-tip="boardSizeBtn" data-i18n-title="boardSizeTitle">📐</button></div>
+        <div id="toolbar">
+          <button class="tool-btn active" data-tool="select" data-i18n-title="tool_select"><span class="tb-ic">↖</span><span data-i18n="toolLabSelect"></span></button>
+          <button type="button" class="tool-btn c-make" id="room-btn" data-i18n-title="tool_rectroom"><span class="tb-ic">🏠</span><span data-i18n="toolLabRoom"></span> ▾</button>
+          <button class="tool-btn c-make" data-tool="wall" data-i18n-title="tool_wall"><span class="tb-ic">▮</span><span data-i18n="toolLabWall"></span></button>
+        </div>
+      </div>
+      <div class="ss-sec ss-objs">
+        <div class="ss-title"><span data-i18n="objTitle"></span><small data-i18n="ssObjHint"></small></div>
+        <div class="obj-tabs" id="obj-tabs">
+          <button type="button" data-cat="indoor" data-i18n="catIndoor"></button>
+          <button type="button" data-cat="outdoor" data-i18n="catOutdoor"></button>
+          <button type="button" data-cat="small" data-i18n="catSmall"></button>
+          <button type="button" data-cat="people" data-i18n="catPeople"></button>
+        </div>
+        <div id="object-panel">
+          <div class="obj-group" data-cat="indoor" data-i18n="objGroupWall"></div>
+          <button class="obj-btn" data-cat="indoor" data-tool="door" data-i18n-title="obj_door_title"><span data-i18n="obj_door"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="door2" data-i18n-title="obj_door2_title"><span data-i18n="obj_door2"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="window" data-i18n-title="obj_window_title"><span data-i18n="obj_window"></span><small class="obj-size"></small></button>
+          <div class="obj-group" data-cat="indoor" data-i18n="objGroupProps"></div>
+          <button class="obj-btn" data-cat="indoor" data-tool="bed" data-i18n-title="obj_bed_title"><span data-i18n="obj_bed"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="desk" data-i18n-title="obj_desk_title"><span data-i18n="obj_desk"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="chair" data-i18n-title="obj_chair_title"><span data-i18n="obj_chair"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="table" data-i18n-title="obj_table_title"><span data-i18n="obj_table"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="sofa" data-i18n-title="obj_sofa_title"><span data-i18n="obj_sofa"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="tv" data-i18n-title="obj_tv_title"><span data-i18n="obj_tv"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="shelf" data-i18n-title="obj_shelf_title"><span data-i18n="obj_shelf"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="indoor" data-tool="lowcab" data-i18n-title="obj_lowcab_title"><span data-i18n="obj_lowcab"></span><small class="obj-size"></small></button>
+          <div class="obj-group" data-cat="small" data-i18n="objGroupSmall"></div>
+          <button class="obj-btn" data-cat="small" data-tool="lamp" data-i18n-title="obj_lamp_title"><span data-i18n="obj_lamp"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="small" data-tool="book" data-i18n-title="obj_book_title"><span data-i18n="obj_book"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="small" data-tool="plant" data-i18n-title="obj_plant_title"><span data-i18n="obj_plant"></span><small class="obj-size"></small></button>
+          <div class="obj-group" data-cat="people" data-i18n="objGroupPeople"></div>
+          <button class="obj-btn cam-btn" data-cat="people" data-tool="camera" data-i18n-title="obj_camera_title"><span data-i18n="obj_camera"></span><small data-i18n="obj_camera_sub"></small></button>
+          <button class="obj-btn cast-btn" data-cat="people" data-tool="actor" data-i18n-title="obj_actor_title"><span data-i18n="obj_actor"></span><small data-i18n="obj_actor_sub"></small></button>
+          <button class="obj-btn" data-cat="people" data-tool="person" data-i18n-title="obj_person_title"><span data-i18n="obj_person"></span><small class="obj-size"></small></button>
+          <div class="obj-group" data-cat="outdoor" data-i18n="objGroupTrDraw"></div>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-river" data-i18n-title="trRiverTitle"><span data-i18n="tr_btn_river"></span></button>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-road" data-i18n-title="trRoadTitle"><span data-i18n="tr_btn_road"></span></button>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-village" data-i18n-title="trZoneTitle"><span data-i18n="tr_btn_village"></span></button>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-field" data-i18n-title="trZoneTitle"><span data-i18n="tr_btn_field"></span></button>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-lake" data-i18n-title="trZoneTitle"><span data-i18n="tr_btn_lake"></span></button>
+          <button class="obj-btn tr-btn" data-cat="outdoor" data-tool="tr-forest" data-i18n-title="trZoneTitle"><span data-i18n="tr_btn_forest"></span></button>
+          <div class="obj-group" data-cat="outdoor" data-i18n="objGroupTerrain"></div>
+          <button class="obj-btn" data-cat="outdoor" data-tool="mountain" data-i18n-title="obj_mountain_title"><span data-i18n="obj_mountain"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="hill" data-i18n-title="obj_hill_title"><span data-i18n="obj_hill"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="bridge" data-i18n-title="obj_bridge_title"><span data-i18n="obj_bridge"></span><small class="obj-size"></small></button>
+          <div class="obj-group" data-cat="outdoor" data-i18n="objGroupOutdoor"></div>
+          <button class="obj-btn" data-cat="outdoor" data-tool="tree" data-i18n-title="obj_tree_title"><span data-i18n="obj_tree"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="pine" data-i18n-title="obj_pine_title"><span data-i18n="obj_pine"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="rock" data-i18n-title="obj_rock_title"><span data-i18n="obj_rock"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="bush" data-i18n-title="obj_bush_title"><span data-i18n="obj_bush"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="streetlamp" data-i18n-title="obj_streetlamp_title"><span data-i18n="obj_streetlamp"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="bench" data-i18n-title="obj_bench_title"><span data-i18n="obj_bench"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="fence" data-i18n-title="obj_fence_title"><span data-i18n="obj_fence"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="car" data-i18n-title="obj_car_title"><span data-i18n="obj_car"></span><small class="obj-size"></small></button>
+          <button class="obj-btn" data-cat="outdoor" data-tool="house" data-i18n-title="obj_house_title"><span data-i18n="obj_house"></span><small class="obj-size"></small></button>
+        </div>
+      </div>
+     </div>
+     <div id="set-side-dock">
+      <div class="ss-sec ss-memo">
+        <div class="ss-title"><span><span data-i18n="memoTitle"></span> <span class="ss-info" data-i18n-title="memoHint">ⓘ</span></span><small id="memo-count"></small></div>
+        <div class="memo-row">
+          <button type="button" id="memo-show" class="c-view" data-i18n-title="memoShowTitle"></button>
+          <button type="button" id="memo-clear" class="c-del" data-i18n="memoClearBtn" data-i18n-title="memoClearTitle"></button>
+        </div>
+      </div>
+      <div class="ss-sec ss-sel" id="prop-panel">
+        <div class="ss-title" id="sel-title"></div>
+        <div class="prop-group" id="multi-group">
+          <div class="prop-title" id="multi-count"></div>
+        </div>
+        <div class="prop-group" id="tr-group"><div class="tr-info"></div><label class="tr-num"><span></span><input type="number" step="0.5" min="0.5"></label></div>
+        <div class="prop-group" id="light-group">
+          <div class="action-row"><button class="action-btn c-make" id="light-btn"></button></div>
+        </div>
+        <div class="prop-group" id="rotate-group">
+          <div class="action-row"><button class="action-btn c-edit" id="rotate-btn" data-i18n="rotateBtn"></button></div>
+          <div class="action-row" id="door-kind" hidden><button type="button" class="action-btn c-edit" data-kind="1" data-i18n="doorKind1" data-i18n-title="doorKind1Title"></button><button type="button" class="action-btn c-edit" data-kind="2" data-i18n="doorKind2" data-i18n-title="doorKind2Title"></button></div>
+        </div>
+        <div class="prop-group" id="cast-group">
+          <label class="cast-name-row"><i id="cast-dot"></i><input id="cast-name" type="text" maxlength="24" data-i18n-title="castNameTitle"></label>
+          <div class="cast-info" id="cast-info"></div>
+          <div class="action-row">
+            <button class="action-btn c-edit" id="cast-rot" data-i18n="castRotBtn" data-i18n-title="castRotTitle"></button>
+            <button class="action-btn danger c-del" id="cast-del" data-i18n="castDelBtn"></button>
+          </div>
+        </div>
+        <div class="prop-group" id="cam-group">
+          <label class="cast-name-row"><i class="cam-dot">🎥</i><input id="cam-name" type="text" maxlength="20" data-i18n-title="camNameTitle"></label>
+          <div class="cam-now" id="cam-now"></div>
+          <div class="cam-rows">
+            <label class="cm-mount"><span data-i18n="camMount"></span><select id="cam-mount" data-i18n-title="camMountTitle"></select></label>
+            <label class="cm-actor"><span data-i18n="camActor"></span><select id="cam-actor"></select></label>
+            <label class="cm-shot"><span data-i18n="camShot"></span><select id="cam-shot" data-i18n-title="camShotTitle"></select></label>
+            <label class="cm-dist"><span data-i18n="camDist"></span><input id="cam-dist" type="number" min="0.2" max="30" step="0.1" data-i18n-title="camDistTitle"></label>
+            <label class="cm-h"><span data-i18n="camH"></span><input id="cam-h" type="number" min="0.2" max="40" step="0.1"></label>
+            <label class="cm-tilt"><span data-i18n="camTilt"></span><input id="cam-tilt" type="number" min="-60" max="89" step="1" data-i18n-title="camTiltTitle"></label>
+            <label class="cm-fov"><span data-i18n="camFov"></span><select id="cam-fov"><option value="wide" data-i18n="camFovWide"></option><option value="norm" data-i18n="camFovNorm"></option><option value="tele" data-i18n="camFovTele"></option></select></label>
+            <label class="cm-fovdeg"><span data-i18n="camFovDeg"></span><input id="cam-fovdeg" type="number" min="20" max="120" step="1" data-i18n-title="camFovDegTitle"></label>
+            <label class="cm-ratio"><span data-i18n="camRatio"></span><select id="cam-ratio"><option value="16:9">16:9</option><option value="9:16">9:16</option></select></label>
+          </div>
+          <div class="cam-acts">
+            <button class="action-btn c-view" id="cam-eye" data-i18n="camEye" data-i18n-title="camEyeTitle"></button>
+            <button class="action-btn c-make" id="cam-here" data-i18n="camHere" data-i18n-title="camHereTitle"></button>
+            <button class="action-btn c-edit" id="cam-rot" data-i18n="castRotBtn" data-i18n-title="castRotTitle"></button>
+            <button class="action-btn danger c-del" id="cam-del" data-i18n="camDelBtn" data-i18n-title="camDelTitle"></button>
+          </div>
+        </div>
+        <div class="prop-group" id="hint-group"><span class="ss-info" data-i18n-title="hintText">ⓘ <span data-i18n="helpWord"></span></span></div>
+        <div class="prop-group">
+          <div class="action-row">
+            <button class="action-btn c-make" id="dup-btn" data-i18n="dupBtn"></button>
+            <button class="action-btn danger c-del" id="del-btn" data-i18n="delBtn"></button>
+          </div>
+        </div>
+      </div>
+     </div>
+    </aside>
+
+    <div id="set-main">
+      <div id="set-viewbar">
+        <div class="seg" id="view-seg">
+          <button type="button" data-view="2d" data-i18n="view2d" data-i18n-title="view2dTitle"></button>
+          <button type="button" data-view="split" data-i18n="viewSplit" data-i18n-title="viewSplitTitle"></button>
+          <button type="button" data-view="3d" data-i18n="view3d" data-i18n-title="view3dTitle"></button>
+        </div>
+        <div style="flex:1"></div>
+        <span class="env-lab" data-i18n="envTimeLab"></span>
+        <div class="seg" id="time-seg">
+          <button type="button" data-time="" data-i18n="envStudio" data-i18n-title="envStudioTitle"></button>
+          <button type="button" data-time="day" data-i18n="envDay"></button>
+          <button type="button" data-time="dusk" data-i18n="envDusk"></button>
+          <button type="button" data-time="night" data-i18n="envNight"></button>
+        </div>
+        <button id="lang-toggle" class="c-view" data-i18n-title="langToggleTitle">🌐 EN</button>
+      </div>
+      <div id="set-panes">
+        <div id="build-screen" class="set-pane">
+          <svg id="canvas" class="tool-select" tabindex="0">
+            <g id="world">
+              <g id="board-layer"></g>
+              <g id="shapes-layer"></g>
+              <g id="cam-layer"></g>
+              <g id="cast-layer"></g>
+              <g id="selection-layer"></g>
+              <g id="memo2d-layer"></g>
+              <g id="me-layer"></g>
+            </g>
+          </svg>
+          <div class="pane-tag" data-i18n="pane2d"></div>
+          <div id="path-hint" hidden></div>
+          <div id="plan-bottom">
+            <div id="zoom-bar">
+              <button id="zoom-out" class="c-view" data-i18n-title="zoomOut">−</button>
+              <div id="zoom-pct">100%</div>
+              <button id="zoom-in" class="c-view" data-i18n-title="zoomIn">+</button>
+              <button id="zoom-fit" class="c-view" data-i18n-title="zoomFitTitle" data-i18n="zoomFit"></button>
+            </div>
+            <button type="button" id="hint-open" class="tl-help c-view" data-i18n-title="hintOpen" hidden>?</button>
+            <div id="shortcut-hint"><button type="button" id="hint-close" data-i18n-title="hintClose">✕</button><div data-i18n="hint1"></div><div data-i18n="hint2"></div></div>
+          </div>
+          <div id="toast"></div>
+          <input type="file" id="open-input" accept="application/json">
+        </div>
+        <div id="set-divider" data-i18n-title="dividerTitle"></div>
+        <div id="live-screen" class="set-pane">
+          <div id="live-head" aria-hidden="true"></div>
+          <div id="live-view">
+            <div id="crosshair"></div>
+            <div id="memo3d"><svg id="memo3d-lines"></svg></div>
+            <div id="cam-frame" hidden><div class="cf-tag"></div></div>
+          </div>
+          <div id="note-label"></div>
+          <div id="live-left">
+            <div class="seg dark" id="cam-seg">
+              <button type="button" id="cam-orbit" data-i18n="camOrbit" data-i18n-title="camOrbitTitle"></button>
+              <button type="button" id="cam-cam" data-i18n="camCam" data-i18n-title="camCamTitle"></button>
+              <button type="button" id="cam-walk" data-i18n="camWalk" data-i18n-title="camWalkTitle"></button>
+              <button type="button" id="cam-drone" data-i18n="camDrone" data-i18n-title="camDroneTitle"></button>
+            </div>
+            <button id="ceiling-toggle" class="c-view"></button>
+          </div>
+          <div id="look-set" hidden><div class="ls-row"><b data-i18n="lookSens"></b><button type="button" data-sens="slow" data-i18n="lookSlow"></button><button type="button" data-sens="normal" data-i18n="lookNormal"></button><button type="button" data-sens="fast" data-i18n="lookFast"></button></div><label class="ls-row" data-i18n-title="lookSmoothTitle"><input type="checkbox" id="look-smooth"><span data-i18n="lookSmooth"></span></label></div>
+          <div id="live-right">
+            <button id="reset-view-btn" class="c-view" data-i18n="resetView" data-i18n-title="resetViewTitle"></button>
+            <button id="screenshot-btn" class="c-save" data-i18n="screenshotBtn" data-i18n-title="screenshotTitle"></button>
+            <button type="button" id="pv-btn" class="c-view" data-i18n="pvBtn" data-i18n-title="pvBtnTitle"></button>
+            <button type="button" id="rec-btn" class="c-save" data-i18n-title="recBtnTitle"></button>
+          </div>
+          <div id="rec-pop" hidden>
+            <div class="rp-head"><b data-i18n="recPopTitle"></b><button type="button" id="rec-x">✕</button></div>
+            <div class="rp-row rp-src" id="rec-src"><button type="button" data-src="camera" class="c-view" data-i18n="srcCamera"></button><button type="button" data-src="drone" class="c-view" data-i18n="srcDrone"></button><button type="button" data-src="walk" class="c-view" data-i18n="srcWalk"></button></div>
+            <div class="rp-row rp-dim" id="rec-src-note"></div>
+            <div class="rp-row"><span data-i18n="recSize"></span><select id="rec-size" class="c-edit"><option value="720">720p</option><option value="1080">1080p</option></select><span id="rec-dims"></span></div>
+            <label class="rp-row"><input type="checkbox" id="rec-from0"><span data-i18n="recFrom0"></span></label>
+            <div class="rp-row rp-dim" id="rec-len"></div>
+            <div class="rp-row rp-dim" id="rec-cuts-info"></div>
+            <div class="rp-row" id="rec-format"></div>
+            <div class="rp-row" id="rec-last" hidden><span data-i18n="recLastWarn"></span><button type="button" id="rec-last-open" class="c-save" data-i18n="recLastOpen"></button></div>
+            <div class="rp-keys" data-i18n-html="recKeys"></div>
+            <button type="button" id="rec-go" class="c-save" data-i18n="recGo"></button>
+          </div>
+          <div id="rec-bar" hidden>
+            <span class="rec-dot">●</span><b id="rec-time"></b><span id="rec-marks"></span>
+            <button type="button" id="rec-stop" class="c-save" data-i18n="recStop"></button>
+          </div>
+          <div id="rec-flash"></div>
+          <div id="orbit-hint" data-i18n="orbitHint"></div>
+          <div id="live-overlay">
+            <div id="live-card">
+              <h1 id="live-title" data-i18n="liveTitle"></h1>
+              <p id="live-desc" data-i18n-html="liveDesc"></p>
+              <button id="live-start-btn" data-i18n="liveStartBtn"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="set-tl">
+        <div class="tl-bar">
+          <button type="button" id="tl-fold" class="c-view" data-i18n-title="tlFoldTitle"></button>
+          <span class="mot-grp"><button type="button" id="tl-add" class="c-get" data-i18n="tlAdd" data-i18n-title="tlAddTitle"></button></span>
+          <span class="mot-grp"><button type="button" id="tl-start" class="c-edit" data-i18n-title="motStart">⏮</button><button type="button" id="tl-play" class="c-edit" data-i18n-title="tlPlayTitle"></button><button type="button" id="tl-end" class="c-edit" data-i18n-title="motEnd">⏭</button><select id="tl-speed" class="c-edit" data-i18n-title="tlSpeedTitle"><option value="0.25">×0.25</option><option value="0.5">×0.5</option><option value="1" selected>×1</option><option value="2">×2</option></select><span id="tl-time">0.00s / 0.00s</span></span>
+          <span class="mot-grp" id="tl-cut-grp" hidden><button type="button" id="tl-cut-here" class="c-make" data-i18n="cutHere" data-i18n-title="cutHereTitle"></button><button type="button" id="tl-cut-clear" class="c-del" data-i18n="cutClear" data-i18n-title="cutClearTitle" hidden></button></span>
+          <div class="tl-br" aria-hidden="true"></div>
+          <span class="mot-grp tl-sel-grp" id="tl-cutsel-grp" hidden><b data-i18n="cutSelGrp"></b><span id="tl-cut-num" class="tl-num" hidden><span data-i18n="numStart"></span><input type="number" id="tl-cut-t0" min="0" step="0.1"><span data-i18n="numLen"></span><input type="number" id="tl-cut-len" min="0.2" step="0.1"><em id="tl-cut-end" data-i18n="cutToEnd" hidden></em></span><select id="tl-cut-cam" class="c-edit" data-i18n-title="cutCamTitle" hidden></select><select id="tl-cut-shot" class="c-edit" data-i18n-title="cutShotTitle" hidden></select><select id="tl-cut-zoom" class="c-edit" data-i18n-title="zoomTitle" hidden></select><select id="tl-cut-back" class="c-edit" data-i18n-title="backTitle" hidden></select><select id="tl-cut-zt" class="c-edit" data-i18n-title="zoomTgtTitle" hidden></select><button type="button" id="tl-cut-del" class="c-del" data-i18n="cutDel" data-i18n-title="cutDelTitle" hidden></button></span>
+          <span class="mot-grp" id="tl-spd-grp" hidden><b data-i18n="spdGrp"></b><span class="tl-num"><span data-i18n="numStart"></span><input type="number" id="tl-spd-t0" min="0" step="0.1" data-i18n-title="spdT0Title"><span data-i18n="numLen"></span><input type="number" id="tl-spd-len" min="0.2" step="0.1" data-i18n-title="spdLenTitle"></span><select id="tl-spd-x" class="c-edit" data-i18n-title="spdXTitle"><option value="0.25">×0.25</option><option value="0.5">×0.5</option><option value="2">×2</option><option value="4">×4</option></select><button type="button" id="tl-spd-del" class="c-del" data-i18n="spdDel" data-i18n-title="spdDelTitle"></button></span>
+          <span class="mot-grp" id="tl-clip-grp" hidden><b id="tl-clip-name"></b><span class="sb-grp"><span data-i18n="stripReps"></span><button type="button" id="tl-rep-dn" class="c-edit">−</button><b id="tl-reps">1</b><button type="button" id="tl-rep-up" class="c-edit">＋</button></span><label class="sb-grp"><span data-i18n="stripSpeed"></span><select id="tl-cspeed" class="c-edit"><option value="0.5">×0.5</option><option value="0.75">×0.75</option><option value="1">×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select></label><button type="button" id="tl-path" class="c-make" data-i18n-title="tlPathTitle"></button><button type="button" id="tl-pt-del" class="c-del" data-i18n="tlPtDel" data-i18n-title="tlPtDelTitle" hidden></button><button type="button" id="tl-path-clear" class="c-del" data-i18n="tlPathClear" data-i18n-title="tlPathClearTitle" hidden></button><button type="button" id="tl-del" class="c-del" data-i18n="tlDel" data-i18n-title="tlDelTitle"></button></span>
+          <div style="flex:1"></div>
+          <span class="mot-grp"><input id="scene-name" type="text" maxlength="40" data-i18n-ph="sceneNamePh" data-i18n-title="sceneNameTitle"><button type="button" id="scene-save" class="c-save" data-i18n="sceneSave" data-i18n-title="sceneSaveTitle"></button><button type="button" id="scene-open" class="c-get" data-i18n="sceneOpen" data-i18n-title="sceneOpenTitle"></button></span>
+        </div>
+        <div class="tl-body">
+          <div id="tl-labels"></div>
+          <div id="tl-track"><div id="tl-ruler"></div><div id="tl-cuts" hidden></div><div id="tl-spd" hidden></div><div id="tl-rows"></div><div id="tl-head"></div></div>
+        </div>
+        <div id="tl-empty" data-i18n="tlEmpty"></div>
+        <input type="file" id="scene-input" accept=".json,application/json" hidden>
+        <input type="file" id="tl-pack-input" accept=".json,application/json" multiple hidden>
+      </div>
+    </div>
+  </div>
+  <div id="tl-pop" hidden></div>
+  <div id="pv-back" hidden>
+    <div id="pv-win" role="dialog">
+      <div class="pv-head"><b data-i18n="pvTitle"></b><small data-i18n="pvSub"></small><button type="button" id="pv-x">✕</button></div>
+      <div class="pv-stage"><canvas id="pv-cv"></canvas><div id="pv-tag"></div></div>
+      <div id="pv-keys"></div>
+      <div class="pv-seek"><input type="range" id="pv-seek" min="0" max="1" step="0.01" value="0" data-i18n-title="pvSeekTitle"><span id="pv-time"></span></div>
+      <div class="pv-ctl"><button type="button" id="pv-start" class="c-edit" data-i18n="pvStart"></button><button type="button" id="pv-play" class="c-edit"></button></div>
+      <div id="pv-note" hidden></div>
+    </div>
+  </div>
+  <div id="tl-help-card" hidden><button type="button" id="thc-x">✕</button><b id="thc-title"></b><div id="thc-body"></div></div>
+  <div id="rec-done" hidden>
+    <div class="rd-head"><b data-i18n="rdTitle"></b><button type="button" id="rd-close" data-i18n-title="rdCloseTitle">✕</button></div>
+    <video id="rd-video" controls playsinline muted></video>
+    <div id="rd-info"></div>
+    <div id="rd-names"></div>
+    <div id="rd-state"></div>
+    <div class="rd-btns">
+      <button type="button" id="rd-folder" class="c-save" data-i18n-title="rdFolderTitle"></button><button type="button" id="rd-folder-change" class="c-view" data-i18n="rdChange" data-i18n-title="rdChangeTitle"></button>
+    </div>
+    <div class="rd-btns"><button type="button" id="rd-notes" class="c-get" data-i18n="rdNotes" data-i18n-title="rdNotesTitle"></button></div>
+    <div class="rd-btns">
+      <button type="button" id="rd-video-btn" class="c-save" data-i18n="rdVideo" data-i18n-title="rdVideoTitle"></button><button type="button" id="rd-log-btn" class="c-save" data-i18n="rdLog" data-i18n-title="rdLogTitle"></button>
+      <div style="flex:1"></div><button type="button" id="rd-discard" class="c-del" data-i18n="rdDiscard" data-i18n-title="rdDiscardTitle"></button>
+    </div>
+    <div id="rd-webm" class="rd-note" data-i18n="recWebmNote" hidden></div>
+  </div>
+  <textarea id="text-editor"></textarea>
+  <div id="memo-edit" hidden>
+    <div class="me-where"></div>
+    <div class="me-kinds">
+      <button type="button" data-kind="set" data-i18n="memoKindSet" data-i18n-title="memoKindSetTitle"></button>
+      <button type="button" data-kind="scene" data-i18n="memoKindScene" data-i18n-title="memoKindSceneTitle"></button>
+    </div>
+    <textarea id="memo-text"></textarea>
+    <div class="me-btns"><button type="button" id="memo-del" class="c-del" data-i18n="memoDel"></button><div style="flex:1"></div><button type="button" id="memo-ok" class="c-save" data-i18n="memoOk"></button></div>
+  </div>
+  <div id="room-pop" hidden></div>
+  <div id="board-pop" hidden></div>
+  <div id="export-menu" hidden>
+    <div class="em-head" data-i18n="exportHead"></div>
+    <button type="button" data-ex="flow" class="em-main"><b data-i18n="exFlow"></b><small data-i18n="exFlowSub"></small></button>
+    <div class="em-dir"><span id="flow-dir-name"></span><button type="button" id="flow-dir-change" data-i18n="exFlowDirChange"></button></div>
+    <div class="em-sep"></div>
+    <button type="button" data-ex="pair"><b data-i18n="exPair"></b><small data-i18n="exPairSub"></small></button>
+    <button type="button" data-ex="text"><b data-i18n="exText"></b><small data-i18n="exTextSub"></small></button>
+    <button type="button" data-ex="refs"><b data-i18n="exRefs"></b><small data-i18n="exRefsSub"></small></button>
+  </div>
+  <div id="ai-text-modal" hidden>
+    <div class="atm-card">
+      <div class="atm-head"><b data-i18n="aiTextTitle"></b><button type="button" id="ai-text-close">✕</button></div>
+      <div class="atm-sub" data-i18n="aiTextSub"></div>
+      <textarea id="ai-text" readonly></textarea>
+      <div class="atm-btns"><button type="button" id="ai-text-copy" class="c-save" data-i18n="aiTextCopy"></button></div>
+    </div>
+  </div>
+
+  <div id="annot-modal">
+    <div id="annot-toolbar">
+      <button class="annot-tool-btn active" id="annot-tool-pen" data-i18n="annotPen" data-i18n-title="pen"></button>
+      <button class="annot-tool-btn" id="annot-tool-eraser" data-i18n="annotEraser" data-i18n-title="eraser"></button>
+      <button class="annot-tool-btn" id="annot-tool-memo" data-i18n="annotMemo" data-i18n-title="memo"></button>
+      <div id="annot-colors">
+        <div class="annot-swatch selected" data-color="#ffd60a" style="background:#ffd60a" data-i18n-title="yellow"></div>
+        <div class="annot-swatch" data-color="#ff9500" style="background:#ff9500" data-i18n-title="orange"></div>
+        <div class="annot-swatch" data-color="#ff3b30" style="background:#ff3b30" data-i18n-title="red"></div>
+        <div class="annot-swatch" data-color="#0a84ff" style="background:#0a84ff" data-i18n-title="blue"></div>
+      </div>
+      <div id="annot-fontsize">
+        <button type="button" class="annot-size-btn" data-size="s" data-i18n-title="fontSizeSmall">S</button>
+        <button type="button" class="annot-size-btn selected" data-size="m" data-i18n-title="fontSizeMedium">M</button>
+        <button type="button" class="annot-size-btn" data-size="l" data-i18n-title="fontSizeLarge">L</button>
+      </div>
+      <label id="annot-memo-opt" hidden><input type="checkbox" id="annot-memo-cb"> <span data-i18n="annotWithMemos"></span></label>
+      <div style="flex:1"></div>
+      <button id="annot-cancel-btn" data-i18n="close"></button>
+      <button id="annot-save-btn" class="c-save" data-i18n="annotSave"></button>
+    </div>
+    <div id="annot-canvas-wrap">
+      <canvas id="annot-canvas"></canvas>
+      <div id="annot-memos-layer"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="lib/three.min.js"></script>
+<script src="lib/orbitcontrols.js"></script>
+<script src="core/text.js"></script>
+<script src="core/save.js"></script>
+<script src="core/mp4fix.js"></script>
+<script src="core/view3d.js"></script>
+<script src="core/warmup.js"></script>
+<script src="core/perfdiag.js"></script>
+<script src="core/dynres.js"></script>
+<script src="core/app.js"></script>
+<script src="core/learn.js"></script>
+<script src="core/flow.js"></script>
+<script src="set/preview.js"></script>
+<script src="set/model.js"></script>
+<script src="set/plan2d.js"></script>
+<script src="set/build.js"></script>
+<script src="set/handles.js"></script>
+<script src="set/room.js"></script>
+<script src="set/props.js"></script>
+<script src="set/live.js"></script>
+<script src="set/annot.js"></script>
+<script src="set/view.js"></script>
+<script src="set/memo.js"></script>
+<script src="set/ctxmenu.js"></script>
+<script src="set/env.js"></script>
+<script src="set/outdoor.js"></script>
+<script src="set/terrain.js"></script>
+<script src="set/cast.js"></script>
+<script src="set/camera.js"></script>
+<script src="set/timeline.js"></script>
+<script src="set/cuts.js"></script>
+<script src="set/speedramp.js"></script>
+<script src="set/record.js"></script>
+<script src="set/drone.js"></script>
+<script src="set/main.js"></script>
+<script src="actor/skeleton.js"></script>
+<script src="actor/figure.js"></script>
+<script src="actor/motion.js"></script>
+<script src="actor/tutorial.js"></script>
+<script src="actor/library.js"></script>
+<script src="actor/strip.js"></script>
+<script src="actor/photo.js"></script>
+<script src="actor/rig2d.js"></script>
+<script src="actor/actor.js"></script>
+<script>if (/^https?:$/.test(location.protocol)) document.getElementById('ib-home').hidden = false;
+if (!matchMedia('(pointer:fine)').matches) document.getElementById('pc-only').hidden = false;</script>
+</body>
+</html>
