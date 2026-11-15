@@ -53,6 +53,7 @@ function render(){
     } else { why.classList.remove('show'); why.innerHTML = ''; }
   });
   $$('[data-rail]').forEach(r => r._update && r._update());
+  if (window.IBNotice) IBNotice.setLang(L);
 }
 
 document.addEventListener('click', e => {
@@ -130,10 +131,12 @@ $$('[data-rail]').forEach(setupRail);
   onScroll();
 })();
 
-function playIntro(){ if (window.IBIntro) IBIntro.play({ lang, onEnd(){ SS.set('ib-intro-seen', '1'); } }); }
-$('#replay').addEventListener('click', playIntro);
+function playIntro(auto){ if (window.IBIntro) IBIntro.play({ lang, onEnd(){ SS.set('ib-intro-seen', '1'); if (auto === true && window.IBNotice) IBNotice.auto(); } }); }
+$('#replay').addEventListener('click', () => playIntro(false));
+['#noteOpen', '#noticeBtn'].forEach(s => { const b = $(s); if (b) b.addEventListener('click', () => window.IBNotice && IBNotice.open()); });
 
 render();
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduce && !SS.get('ib-intro-seen') && !location.hash) playIntro();
+if (!reduce && !SS.get('ib-intro-seen') && !location.hash) playIntro(true);
+else if (!location.hash && window.IBNotice) IBNotice.auto();
 })();
