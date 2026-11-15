@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 학습 버튼이란? 무료 AI 플랜으로 쓰는 웹 도구 · The Ignition Bench</title>
+<meta name="description" content="AI 학습 버튼 = 웹 도구 + AI에게 쓰는 법을 알려 주는 글 한 쌍. 도구를 열고, 학습 글을 복사해 내 AI(무료 플랜도 가능)에 붙여넣고, 결과를 도구에 붙여넣으면 끝. 로그인 없음 · 서버 비용 없음.">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://ignition-bench.github.io/ai-learning/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 학습 버튼이란? · The Ignition Bench">
+<meta property="og:description" content="웹 도구 + AI 학습 글. 내 AI(무료 플랜도 가능)에 붙여넣기만 하면 그림과 카드로 완성돼요. · Web tool + AI learning text, works with your own AI.">
+<meta property="og:url" content="https://ignition-bench.github.io/ai-learning/">
+<meta property="og:image" content="https://ignition-bench.github.io/assets/icon/site-icon-512.png">
+<link rel="icon" href="../assets/icon/site-icon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icon/site-icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icon/site-icon-180.png">
+<style>
+  :root{
+    --paper:#f5f7fb; --card:#ffffff; --ink:#17233a; --dim:#52617a; --faint:#7a889e; --line:#dbe3ef;
+    --bp:#0d2541; --ember:#ff7a2f; --ember-ink:#b8480a; --ember-bg:#fff1e6; --blue:#1d4ed8; --blue-bg:#eef4ff; --green:#0f766e; --green-bg:#ecfdf5; --warn:#b45309; --warn-bg:#fffbeb;
+    --f-ui:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --f-mono:ui-monospace,"SF Mono",Consolas,"Roboto Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-ui);line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+  a{color:var(--blue)}
+  button{font:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+  html[lang=ko] [data-show=en], html[lang=en] [data-show=ko]{display:none!important}
+
+  .bar{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar-in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+  .home{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:9px;background:var(--bp);text-decoration:none}
+  .home:hover,.home:focus-visible{box-shadow:0 0 0 3px #ff7a2f55}
+  .bar .tt{flex:1;min-width:0}
+  .sheet{font:600 10.5px var(--f-mono);letter-spacing:.16em;color:var(--faint)}
+  .bar h1{margin:0;font-size:17px;line-height:1.3}
+  .lang{display:flex;flex:none;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .lang button{background:none;border:0;padding:5px 10px;font-size:13px;color:var(--dim)}
+  .lang button[aria-pressed="true"]{background:var(--ember-bg);color:var(--ember-ink);font-weight:700}
+
+  .page{max-width:900px;margin:0 auto;padding:22px 16px 56px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+  .panel + .panel{margin-top:22px}
+  .badge{display:inline-block;background:var(--ember-bg);color:var(--ember-ink);font-size:12px;font-weight:800;padding:3px 11px;border-radius:999px;letter-spacing:.04em;margin-bottom:10px}
+  h2{margin:0 0 6px;font-size:24px;line-height:1.35}
+  .lead{margin:0 0 4px;color:var(--dim);font-size:16px}
+  h3{margin:30px 0 10px;font-size:19px;line-height:1.4;padding-bottom:8px;border-bottom:2px solid var(--bp)}
+  h4{margin:20px 0 8px;font-size:16px}
+  p{margin:0 0 13px}
+  ul{margin:0 0 14px;padding-left:20px}
+  li{margin-bottom:7px}
+
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 20px;counter-reset:st}
+  .step{position:relative;border:1px solid var(--line);border-radius:12px;padding:14px 14px 13px;background:#fbfcfe}
+  .step .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ember);color:#fff;font:800 13px var(--f-mono);margin-bottom:6px}
+  .step b{display:block;font-size:15px;line-height:1.4;margin-bottom:3px}
+  .step span{display:block;font-size:13.5px;color:var(--dim);line-height:1.55}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--faint);font-weight:800;background:var(--card);line-height:1;z-index:1}
+
+  .box{border-left:4px solid var(--blue);background:var(--blue-bg);border-radius:0 12px 12px 0;padding:15px 18px;margin:18px 0}
+  .box b.t{display:block;color:var(--blue);margin-bottom:4px}
+  .box.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+  .box.warn b.t{color:var(--warn)}
+  .box p:last-child{margin-bottom:0}
+
+  .grid2,.grid3{display:grid;gap:14px;margin:16px 0}
+  .grid2{grid-template-columns:repeat(2,1fr)}
+  .grid3{grid-template-columns:repeat(3,1fr)}
+  .mini{border:1px solid var(--line);border-radius:12px;padding:16px 17px;background:#fbfcfe}
+  .mini h5{margin:0 0 6px;font-size:15px;line-height:1.45}
+  .mini p,.mini li{font-size:14.5px;color:#34435c}
+  .mini ul{margin:6px 0 0}
+  .tag{display:inline-block;font-size:12px;font-weight:800;padding:1px 8px;border-radius:6px;margin-right:4px}
+  .tag.pro{background:var(--green-bg);color:var(--green)}
+  .tag.con{background:var(--warn-bg);color:var(--warn)}
+
+  .tbl{overflow-x:auto;margin:14px 0 8px;border:1px solid var(--line);border-radius:12px}
+  table{width:100%;min-width:660px;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;vertical-align:top;padding:11px 13px;border-bottom:1px solid var(--line)}
+  th{background:#f1f5fa;font-size:13px;color:var(--dim)}
+  tr:last-child td{border-bottom:0}
+  tr.me td{background:var(--ember-bg)}
+  .cap{font-size:13px;color:var(--faint);margin:0 0 14px}
+
+  .faq details{border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:9px 0;background:#fbfcfe}
+  .faq summary{cursor:pointer;font-weight:700}
+  .faq details p{margin:8px 0 0;font-size:14.5px;color:#34435c}
+
+  .sep{display:flex;align-items:center;gap:12px;margin:34px 0 18px;color:var(--faint);font:700 11.5px var(--f-mono);letter-spacing:.16em}
+  .sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--line)}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}
+  .foot{margin-top:28px;text-align:center;font-size:13px;color:var(--faint)}
+  .foot a{color:var(--dim)}
+
+  @media (max-width:720px){
+    .panel{padding:20px 17px}
+    h2{font-size:21px}
+    .flow{grid-template-columns:1fr 1fr}
+    .step:nth-child(2)::after{display:none}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .bar .sheet{display:none}
+  }
+  @media (max-width:420px){ .flow{grid-template-columns:1fr} .step::after{display:none} }
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="home" href="../" data-ko-title="The Ignition Bench 메인으로" data-en-title="Back to The Ignition Bench" title="The Ignition Bench 메인으로"><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
+  <div class="tt"><div class="sheet">SHEET A · AI LEARNING</div><h1 data-ko="AI 학습 버튼이란?" data-en="What is the AI learning button?">AI 학습 버튼이란?</h1></div>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-l="ko" aria-pressed="true">KO</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+</div></header>
+
+<main class="page">
+
+<article class="panel" id="what">
+  <div data-show="ko">
+    <span class="badge">AI 학습 버튼 · 한눈에</span>
+    <h2>웹 도구 + AI에게 쓰는 법을 알려 주는 글, 한 쌍이에요</h2>
+    <p class="lead">AI 덕분에 프로그램 만들기는 쉬워졌지만, 매번 긴 설명을 쓰고 설정하는 일은 여전히 피곤해요. 그래서 이 사이트는 설치 없이 바로 쓰는 가벼운 웹 도구(도화지)와, 내 AI가 그 도구를 이해하게 해 주는 <b>「AI 학습」 글</b>을 함께 둡니다. 무료 AI 플랜으로 다이어그램이나 장면 설계를 만들고 싶은 분을 위한 방식이에요.</p>
+  </div>
+  <div data-show="en">
+    <span class="badge">AI LEARNING BUTTON · AT A GLANCE</span>
+    <h2>A web tool, paired with a text that teaches your AI how to use it</h2>
+    <p class="lead">AI made building software easier, but writing long instructions and setting things up every time is still tiring. So this site pairs a light web tool (a canvas that needs no install) with an <b>“AI learning” text</b> that lets your own AI understand that tool. It is meant for people who want to make diagrams or scene plans with a free AI plan.</p>
+  </div>
+
+  <div class="flow" role="list">
+    <div class="step" role="listitem"><span class="n">1</span>
+      <b data-show="ko">도구 열기</b><b data-show="en">Open the tool</b>
+      <span data-show="ko">로그인도 설치도 없이 브라우저에서 바로 열어요.</span><span data-show="en">Opens right in the browser — no sign-in, no install.</span></div>
+    <div class="step" role="listitem"><span class="n">2</span>
+      <b data-show="ko">AI 학습 글 복사</b><b data-show="en">Copy the learning text</b>
+      <span data-show="ko">도구가 준비해 둔 설명서를 한 번에 복사해요.</span><span data-show="en">Copy the ready-made guide in one click.</span></div>
+    <div class="step" role="listitem"><span class="n">3</span>
+      <b data-show="ko">내 AI에 붙여넣기</b><b data-show="en">Paste into your AI</b>
+      <span data-show="ko">내가 쓰는 AI(무료 플랜도 괜찮아요)에 붙여넣고 하고 싶은 걸 말해요.</span><span data-show="en">Paste it into the AI you already use (a free plan is fine) and say what you want.</span></div>
+    <div class="step" role="listitem"><span class="n">4</span>
+      <b data-show="ko">결과를 도구에 붙여넣기</b><b data-show="en">Paste the result back</b>
+      <span data-show="ko">AI가 준 결과를 도구에 붙여넣으면 그림과 카드로 완성돼요.</span><span data-show="en">Paste what the AI gives you into the tool and it becomes a diagram or card.</span></div>
+  </div>
+
+  <div data-show="ko">
+    <ul>
+      <li><b>로그인 없음 · 서버 비용 없음.</b> 도구는 내 브라우저 안에서 움직이고, 이 사이트는 내 데이터를 걷지 않아요.</li>
+      <li><b>AI 크레딧을 쓰지 않아요.</b> AI는 각자 쓰던 걸 그대로 가져오고, 무거운 일(화면 그리기)은 브라우저가 해서 AI는 정해진 형식의 글만 만들면 돼요.</li>
+      <li><b>지금 써 볼 수 있는 곳:</b> 기획 도구와 사운드 작업대. 다른 도구로 넓혀 가는 중이에요.</li>
+    </ul>
+    <div class="faq">
+      <details><summary>무료 AI 플랜으로도 되나요?</summary><p>네. 그게 이 방식의 목적이에요. 긴 대화나 무거운 코딩 대신, 학습 글이 정한 형식의 짧은 결과만 만들게 해서 무료 플랜의 한도 안에서도 쓸 수 있게 설계했어요.</p></details>
+      <details><summary>AI가 형식을 틀리게 주면요?</summary><p>AI에게 “설명서의 형식대로 다시 써 줘”라고 말하면 보통 고쳐져요. 무료 모델은 가끔 형식 밖의 말을 섞기도 해서, 이 부분은 도구를 다듬으면서 계속 보완하고 있어요.</p></details>
+      <details><summary>내 작업은 어디에 저장되나요?</summary><p>내 브라우저와 내가 저장한 파일에 있어요. 이 사이트는 로그인이 없고 내용을 서버로 보내지 않아요. 다른 기기로 옮기려면 파일로 저장해 두세요.</p></details>
+    </div>
+  </div>
+  <div data-show="en">
+    <ul>
+      <li><b>No sign-in, no server cost.</b> The tools run inside your browser, and this site does not collect your data.</li>
+      <li><b>No AI credits used.</b> Bring the AI you already use. The heavy work (drawing) is done by your browser, so the AI only writes a short text in a fixed format.</li>
+      <li><b>Where you can try it now:</b> the Planner and the Sound Workbench. More tools are on the way.</li>
+    </ul>
+    <div class="faq">
+      <details><summary>Does it work with a free AI plan?</summary><p>Yes — that is the whole point. Instead of long chats or heavy coding, the learning text asks the AI for a short result in a set format, so it fits within a free plan’s limits.</p></details>
+      <details><summary>What if the AI gets the format wrong?</summary><p>Ask it to “rewrite it in the format of the guide” and it usually fixes it. Free models sometimes add extra words, so we keep improving the tools on this point.</p></details>
+      <details><summary>Where is my work saved?</summary><p>In your browser and in the files you save. There is no sign-in and the site does not send your content to a server. Save to a file if you want to move to another device.</p></details>
+    </div>
+  </div>
+</article>
+
+<div class="sep"><span data-show="ko">전체 보고서</span><span data-show="en">FULL REPORT</span></div>
+
+<article class="panel" id="report">
+  <div data-show="ko">
+    <span class="badge">STRATEGY REPORT · 구상 보고서</span>
+    <h2>웹 캔버스(도화지) + AI 학습 버튼 기반 초경량 소프트웨어 구상</h2>
+    <p class="lead">코딩 진입장벽이 크게 낮아진 시대에, 서버 과금 없는 정적 웹 도구와 표준화된 AI 학습 글을 묶어 무료·유료 AI 사용자 모두에게 닿는 웹 도구 허브(The Ignition Bench)를 만들어 보려는 구상과 앞으로의 전망입니다.</p>
+    <div class="meta"><span><b>기준 사이트</b> The Ignition Bench (ignition-bench.github.io)</span><span><b>핵심 구조</b> BYOAI · 양방향 데이터 순환</span><span><b>작성일</b> 2026년 11월 15일</span></div>
+  </div>
+  <div data-show="en">
+    <span class="badge">STRATEGY REPORT</span>
+    <h2>A light web canvas + “AI learning button” software ecosystem</h2>
+    <p class="lead">Now that the barrier to coding has dropped a great deal, this report describes an idea — and an outlook — for a hub of web tools (The Ignition Bench) that pairs serverless static tools with standardized AI learning texts, reaching both free and paid AI users.</p>
+    <div class="meta"><span><b>Reference site</b> The Ignition Bench (ignition-bench.github.io)</span><span><b>Core structure</b> BYOAI · two-way data loop</span><span><b>Written</b> November 15, 2026</span></div>
+  </div>
+
+  <div data-show="ko">
+    <h3>1. 배경: 코딩이 쉬워진 뒤에 찾아온 ‘설정의 피로’</h3>
+    <p>AI 모델의 발전과 역설계(Reverse Engineering) 도구의 보편화로 기능을 구현하는 기술적 장벽은 크게 낮아졌습니다. 그러나 기술이 쉬워진 만큼, 일반 사용자와 개인 창작자 앞에는 다른 형태의 어려움이 생겼습니다.</p>
+    <div class="grid2">
+      <div class="mini"><h5>① 프롬프트 작성과 역분석의 피로</h5><p>남이 만든 프로그램을 AI로 뜯어보고 다시 설계하는 일은 가능해졌지만, 매번 규칙을 파악하고 긴 설명을 입력하며 토큰을 쓰는 과정 자체가 큰 피로가 됩니다.</p></div>
+      <div class="mini"><h5>② 무료 플랜의 한계와 구독 부담</h5><p>영상 생성이나 무거운 코딩은 무료 AI 플랜의 한도 안에서 하기 어렵습니다. 여러 AI의 유료 플랜을 동시에 구독하기도 부담스러워서, 가볍고 바로 쓸 수 있는 대안이 필요합니다.</p></div>
+    </div>
+    <div class="box"><b class="t">핵심 생각</b><p>사용자에게 처음부터 AI로 프로그램을 짜거나 뜯어고치게 하지 말자. 제작자가 직관적인 웹 도구(도화지)와 잘 다듬은 사용 설명서(AI 학습 글)를 미리 주면, 사용자는 복사 한 번으로 자기 AI를 그 도구 전용으로 세팅하고 결과만 받으면 된다.</p></div>
+  </div>
+  <div data-show="en">
+    <h3>1. Background: the “setup fatigue” after coding got easy</h3>
+    <p>With better AI models and the spread of reverse-engineering tools, the technical barrier to building features has dropped a great deal. But as the technology got easier, a different kind of difficulty appeared for ordinary users and individual creators.</p>
+    <div class="grid2">
+      <div class="mini"><h5>① The fatigue of prompting and reverse analysis</h5><p>Taking apart someone else’s program with AI and redesigning it is now possible, but figuring out the rules, typing long explanations and spending tokens every time is tiring in itself.</p></div>
+      <div class="mini"><h5>② Free-plan limits and subscription burden</h5><p>Video generation or heavy coding is hard to do within a free AI plan’s limits, and paying for several AI plans at once is a burden. People need something light they can use right away.</p></div>
+    </div>
+    <div class="box"><b class="t">Core idea</b><p>Don’t make users build or rework programs with AI from scratch. If the maker provides an intuitive web tool (a canvas) and a well-polished guide (the AI learning text), users can set up their own AI for that tool with one copy and simply get the result.</p></div>
+  </div>
+
+  <div data-show="ko">
+    <h3>2. 구조: ‘공장 설계자’ 모델과 양방향 데이터 순환</h3>
+    <p>이 구상은 AI를 거대한 발전소(인프라)로 보고, 제작자가 사용자의 필요에 맞춘 <b>‘맞춤형 공장(웹 캔버스 + AI 학습 글)’</b>을 설계해 둘 사이를 잇는 구조입니다. 여기서 BYOAI(Bring Your Own AI)는 “내가 쓰던 AI 구독을 그대로 가져온다”는 뜻으로 씁니다. 흐름은 위의 4단계와 같습니다.</p>
+    <h4>이 구조가 작동하는 세 가지 원칙</h4>
+    <ul>
+      <li><b>틀과 알맹이의 분리.</b> 프로그램은 고칠 필요 없는 가벼운 시각 캔버스로 고정하고, 사용자의 아이디어는 가벼운 텍스트(JSON)나 한 장의 이미지로 담아 주고받습니다.</li>
+      <li><b>무료 AI 플랜에 맞춘 초경량 설계.</b> AI에게 무거운 코딩이나 렌더링을 시키지 않고 정해진 형식의 데이터만 만들게 하며, 화면을 그리는 무거운 일은 사용자의 브라우저가 맡습니다.</li>
+      <li><b>알맞은 수준의 디테일.</b> 전문가용 도구처럼 설정이 복잡하지 않으면서도, AI와 정확히 소통하는 데 필요한 최소한의 선택지와 시각화는 제공합니다.</li>
+    </ul>
+  </div>
+  <div data-show="en">
+    <h3>2. Structure: the “factory designer” model and a two-way data loop</h3>
+    <p>This idea treats AI as a huge power plant (infrastructure) and has the maker design a <b>“custom factory” (web canvas + AI learning text)</b> that bridges it to what users need. Here BYOAI (Bring Your Own AI) means “bring the AI subscription you already use.” The flow is the four steps shown above.</p>
+    <h4>Three principles that make it work</h4>
+    <ul>
+      <li><b>Separate the frame from the content.</b> The program stays a light visual canvas that never needs editing, while a user’s ideas travel as light text (JSON) or a single image.</li>
+      <li><b>Ultra-light design for free AI plans.</b> The AI is not asked to code or render anything heavy — only to produce data in a set format — and the heavy drawing is done by the user’s browser.</li>
+      <li><b>The right level of detail.</b> No complicated settings like professional tools, but the minimum choices and visuals needed to communicate precisely with the AI.</li>
+    </ul>
+  </div>
+
+  <div data-show="ko">
+    <h3>3. 비슷한 시도와의 비교, 장단점, 그리고 허브 구조</h3>
+    <p>웹과 오픈소스 생태계의 BYOAI·프롬프트 허브 움직임과 이 구상을 견주어 보았습니다.</p>
+  </div>
+  <div data-show="en">
+    <h3>3. Comparison with similar attempts, pros and cons, and the hub structure</h3>
+    <p>This compares the idea with BYOAI and prompt-hub movements on the web and in open source.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr>
+      <th style="width:21%"><span data-show="ko">유형</span><span data-show="en">Type</span></th>
+      <th style="width:29%"><span data-show="ko">특징</span><span data-show="en">Features</span></th>
+      <th style="width:25%"><span data-show="ko">장점</span><span data-show="en">Strengths</span></th>
+      <th style="width:25%"><span data-show="ko">한계</span><span data-show="en">Limits</span></th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b><span data-show="ko">프롬프트 모음 사이트</span><span data-show="en">Prompt hubs</span></b></td>
+        <td><span data-show="ko">텍스트 템플릿을 나열하고 복사하게 하는 웹페이지</span><span data-show="en">Web pages that list text templates to copy</span></td>
+        <td><span data-show="ko">구현이 단순하고 콘텐츠를 빨리 늘릴 수 있음</span><span data-show="en">Simple to build; content grows fast</span></td>
+        <td><span data-show="ko">복사에서 끝나는 경우가 많고, 결과를 다시 시각화·편집하는 후속 도구가 드묾</span><span data-show="en">Often ends at copying; follow-up tools to visualize or edit the output are rare</span></td></tr>
+      <tr>
+        <td><b><span data-show="ko">오픈소스 BYOAI 도구</span><span data-show="en">Open-source BYOAI tools</span></b></td>
+        <td><span data-show="ko">자기 API 키나 구독 AI를 연결해 쓰는 로컬 스크립트·터미널 도구</span><span data-show="en">Local scripts / terminal tools that connect your own API key or subscription</span></td>
+        <td><span data-show="ko">개발자에게 친화적이고 확장이 자유로움</span><span data-show="en">Developer-friendly and freely extensible</span></td>
+        <td><span data-show="ko">설치와 환경 설정이 필요해 일반 사용자에게는 문턱이 높음</span><span data-show="en">Needs install and setup, so the bar is high for ordinary users</span></td></tr>
+      <tr>
+        <td><b><span data-show="ko">API 중계형 AI 웹 앱</span><span data-show="en">API-relay AI web apps</span></b></td>
+        <td><span data-show="ko">사이트 서버가 AI API를 호출하고 크레딧·구독료를 받음</span><span data-show="en">The site’s server calls AI APIs and charges credits or subscriptions</span></td>
+        <td><span data-show="ko">한 사이트 안에서 모든 과정이 끝남</span><span data-show="en">Everything happens inside one site</span></td>
+        <td><span data-show="ko">이용자가 늘면 서버·API 비용이 커지고, 사용자는 구독이 중복됨</span><span data-show="en">Server/API costs grow with traffic; users end up with overlapping subscriptions</span></td></tr>
+      <tr class="me">
+        <td><b><span data-show="ko">이 구상</span><span data-show="en">This idea</span></b></td>
+        <td><b><span data-show="ko">무설치 정적 웹 캔버스 + AI 학습 글 + 결과를 다시 시각화하는 도구 허브</span><span data-show="en">Install-free static canvas + AI learning text + a hub that visualizes the result</span></b></td>
+        <td><span data-show="ko">서버 비용이 없고, 무료 AI 플랜과 호환되며, 비전공자도 바로 쓸 수 있음</span><span data-show="en">No server cost, works with free AI plans, usable by non-experts right away</span></td>
+        <td><span data-show="ko">웹사이트와 AI 채팅창 사이를 한 번 복사·붙여넣기로 오가야 함</span><span data-show="en">Requires one copy-and-paste round trip between the site and the AI chat</span></td></tr>
+    </tbody></table></div>
+  <p class="cap"><span data-show="ko">※ 제가 찾아본 범위에서의 비교이며, 모든 사례를 조사한 것은 아닙니다.</span><span data-show="en">※ This comparison covers what I could find; it is not a survey of every case.</span></p>
+
+  <div data-show="ko">
+    <h4>종합 평가</h4>
+    <div class="grid2">
+      <div class="mini"><h5><span class="tag pro">강점</span> 운영비 부담이 작고 오래 가기 쉬움</h5><ul>
+        <li><b>운영비가 거의 없음.</b> 사용자가 아무리 늘어도 제작자에게 AI API 비용이 생기지 않아 개인 개발자도 서비스를 계속 다듬을 수 있습니다.</li>
+        <li><b>바로 느끼는 효용.</b> 방문자가 첫 방문에서 결과를 경험하면 재방문과 공유로 이어지기 쉽습니다.</li>
+        <li><b>모듈 확장성.</b> 다이어그램, 사운드, 학습 도구 등을 한 사이트에 모아 서로 방문자를 나눌 수 있습니다.</li></ul></div>
+      <div class="mini"><h5><span class="tag con">보완점</span> 풀어야 할 과제</h5><ul>
+        <li><b>복사·붙여넣기 이탈.</b> 웹과 AI 창을 오가는 동선이 매끄럽지 않으면 초보자가 떠날 수 있어, 1·2·3단계 안내로 풀어야 합니다.</li>
+        <li><b>AI 채팅 앱 자체와의 경쟁.</b> AI 채팅 앱 안에서 바로 그림을 그려 주는 기능이 늘고 있습니다. 내 파일로 저장·편집·공유할 수 있다는 차이를 더 분명히 해야 합니다.</li>
+        <li><b>출력 형식 오차.</b> 무료 모델이 형식 밖의 글을 섞을 때 도구가 유연하게 읽어 내는 보정이 중요합니다.</li></ul></div>
+    </div>
+
+    <h4>왜 도구를 한곳에 모으나: 허브 구조와 틈새 시장</h4>
+    <p>이 방식으로 만들 수 있는 도구의 조합은 매우 많습니다. 그래서 한 가지 수요를 두고 모두가 부딪히는 시장이라기보다, 작은 틈새가 수없이 흩어진 <b>롱테일</b>에 가깝다고 봅니다. 글은 자동으로 수천 편을 만들어 낼 수 있지만, 돌아가는 프로그램은 만들고 → 써 보고 → 고치는 검증 루프를 거쳐야 하고 그 과정에 토큰과 사람의 눈이 들기 때문에, 대량으로 찍어내기 어렵다는 점도 방어선이 됩니다. 다만 이 방어선은 AI가 스스로 테스트하는 기능이 좋아질수록 낮아질 수 있습니다.</p>
+    <p>틈새마다 트래픽은 작기 때문에, 여러 도구를 한 사이트에 모아 작은 방문자를 합치고 도구끼리 방문자를 넘겨 주는 <b>허브 구조</b>가 의미를 가집니다. 그 틈새를 채워 가며 어떤 기능을 사람들이 원하는지를 알게 되는 것도, 다음에 만들 도구를 정하는 지도가 됩니다.</p>
+  </div>
+  <div data-show="en">
+    <h4>Overall assessment</h4>
+    <div class="grid2">
+      <div class="mini"><h5><span class="tag pro">Strengths</span> Low running cost, easy to sustain</h5><ul>
+        <li><b>Almost no running cost.</b> However many users come, the maker pays no AI API fees, so an individual can keep improving the service.</li>
+        <li><b>Immediate value.</b> If a visitor gets a result on the first visit, they are more likely to return and share.</li>
+        <li><b>Modular growth.</b> Diagram, sound and learning tools live in one site and can pass visitors to each other.</li></ul></div>
+      <div class="mini"><h5><span class="tag con">To improve</span> Open challenges</h5><ul>
+        <li><b>Copy-paste drop-off.</b> If the trip between the site and the AI window is clumsy, beginners may leave — clear 1-2-3 guidance is needed.</li>
+        <li><b>Competition from AI chat apps themselves.</b> More chat apps can now draw things right inside the chat. The difference — saving, editing and sharing your own file — needs to be made clearer.</li>
+        <li><b>Output format errors.</b> When a free model adds extra words, the tool needs to read the result flexibly.</li></ul></div>
+    </div>
+
+    <h4>Why gather tools in one place: the hub structure and niche markets</h4>
+    <p>The possible combinations of tools built this way are enormous. So it looks less like a market where everyone competes for one demand and more like a <b>long tail</b> of countless small niches. Articles can be mass-produced automatically, but a working program needs a build → try → fix verification loop that costs tokens and human eyes, which makes mass production hard — a kind of moat. That moat may shrink as AI gets better at testing on its own.</p>
+    <p>Each niche brings little traffic, so a <b>hub</b> that gathers many tools in one site, adds the small audiences together and passes visitors between tools makes sense. Learning which features people ask for also becomes a map for the next tool to build.</p>
+  </div>
+
+  <div data-show="ko">
+    <h3>4. 시장성과 확장 방향 <small style="font-weight:600;color:var(--warn)">— 작성자의 전망입니다</small></h3>
+    <div class="box warn"><b class="t">먼저 밝혀 둡니다</b><p>이 장의 내용은 확인된 사실이 아니라 <b>작성자의 전망</b>입니다. 특히 AI 회사와의 수익 배분은 제가 바라는 방향이며, 2026년 11월 현재 주요 AI 회사가 현금 형태의 추천 보상 제도를 공개적으로 운영한다는 근거는 찾지 못했습니다.</p></div>
+    <p>일반 사용자, 도구를 만드는 창작자, AI 플랫폼 기업의 이해가 맞물릴 수 있다고 봅니다.</p>
+    <div class="grid2">
+      <div class="mini" style="background:var(--green-bg);border-color:#bbf7d0"><h5>🟢 1단계 · 무료 플랜 사용자</h5><p>검색을 통해 들어온 사용자가 비용 없이 <b>‘편함’</b>을 경험하는 단계입니다. 웹 캔버스와 AI 학습 글만으로 자기 아이디어를 가볍게 실행해 보고 첫 성공을 얻습니다.</p></div>
+      <div class="mini" style="background:var(--blue-bg);border-color:#bfdbfe"><h5>🔵 2단계 · 더 배우고 싶어질 때</h5><p>결과에 만족한 사람이 “이 기능을 블록처럼 다르게 조립해 나만의 프로그램으로 키우고 싶다”고 느끼면, 자연스럽게 AI의 유료 플랜으로 넘어가 더 깊이 배우게 될 수 있습니다.</p></div>
+    </div>
+    <h4>‘AI 시대의 애드센스’ 같은 생태계에 대한 바람</h4>
+    <div class="grid3">
+      <div class="mini"><h5>1. AI 회사의 연산 효율</h5><p>모호한 질문으로 긴 대화를 하는 대신, 표준화된 학습 글로 짧고 정제된 입출력을 하면 AI 회사도 연산 자원을 더 효율적으로 쓸 수 있다고 봅니다.</p></div>
+      <div class="mini"><h5>2. 전환 기여에 대한 보상</h5><p>가벼운 체험으로 AI의 재미를 알게 된 사람이 상위 요금제로 옮겨 간다면, 좋은 도구를 만든 사이트가 그 기여만큼 보상받는 제도가 생기면 좋겠다고 기대합니다.</p></div>
+      <div class="mini"><h5>3. 현실적인 수익 경로</h5><p>당장은 광고, 후원, 프리셋 공유, 맞춤 도구 제작 의뢰 같은 경로를 생각할 수 있습니다. 추천 링크 방식의 보상이 생긴다면 링크를 거치는 단계가 있어야 기여를 셀 수 있어서, 설계에 그 자리를 염두에 둡니다.</p></div>
+    </div>
+    <div class="box"><b class="t">정리</b><p>이 구상은 큰 계획이라기보다 <b>하나의 실험</b>입니다. 같은 방식을 쓰는 곳을 아직 많이 찾지 못했고, 그래서 직접 도구와 설명서를 만들어 보며 사람들이 끝까지 쓰는지, 어디서 막히는지를 지켜보려 합니다.</p></div>
+  </div>
+  <div data-show="en">
+    <h3>4. Market outlook and directions <small style="font-weight:600;color:var(--warn)">— the author’s outlook</small></h3>
+    <div class="box warn"><b class="t">A note first</b><p>What follows is not established fact but the <b>author’s outlook</b>. In particular, revenue sharing with AI companies is a direction I hope for; as of November 2026 I could not find evidence that the major AI companies publicly run a cash referral reward program.</p></div>
+    <p>I see the interests of ordinary users, tool-making creators and AI platform companies possibly fitting together.</p>
+    <div class="grid2">
+      <div class="mini" style="background:var(--green-bg);border-color:#bbf7d0"><h5>🟢 Stage 1 · Free-plan users</h5><p>People arriving from search experience <b>“ease”</b> at no cost. With only the web canvas and the AI learning text they try their idea lightly and get a first success.</p></div>
+      <div class="mini" style="background:var(--blue-bg);border-color:#bfdbfe"><h5>🔵 Stage 2 · When they want to learn more</h5><p>Once someone is happy with the result and thinks “I’d like to recombine these features like blocks into my own program,” they may naturally move to a paid AI plan to learn more deeply.</p></div>
+    </div>
+    <h4>A hope for an “AdSense for the AI era”</h4>
+    <div class="grid3">
+      <div class="mini"><h5>1. Compute efficiency for AI companies</h5><p>Instead of long chats from vague questions, short refined input and output through standardized learning texts could let AI companies use compute more efficiently.</p></div>
+      <div class="mini"><h5>2. Rewards for conversion contribution</h5><p>If people who discover the fun of AI through a light trial move to a higher plan, I hope for a system that rewards the site that built the good tool for that contribution.</p></div>
+      <div class="mini"><h5>3. Realistic income paths</h5><p>For now, ads, donations, shared presets and custom tool requests come to mind. If referral-link rewards ever appear, a link step is needed to count contributions, so the design keeps room for it.</p></div>
+    </div>
+    <div class="box"><b class="t">In short</b><p>This is less a grand plan than <b>an experiment</b>. I have not found many others using the same approach, so I am building tools and guides myself to see whether people use them to the end and where they get stuck.</p></div>
+  </div>
+
+  <div class="foot" style="margin-top:22px;padding-top:14px;border-top:1px solid var(--line)">
+    <span data-show="ko">이 보고서는 작성자의 기획 논의를 AI의 도움으로 정리하고 작성자가 검토했습니다.</span>
+    <span data-show="en">This report was organized with the help of AI from the author’s planning discussions and reviewed by the author.</span>
+  </div>
+</article>
+
+<p class="foot"><a href="../" data-ko="← The Ignition Bench 메인으로" data-en="← Back to The Ignition Bench">← The Ignition Bench 메인으로</a> · <a href="../licenses/" data-ko="라이선스" data-en="Licenses">라이선스</a></p>
+</main>
+
+<script>
+(() => {
+  const LS = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+  let lang = LS.get('ib-lang') || ((navigator.language || 'ko').toLowerCase().startsWith('ko') ? 'ko' : 'en');
+  const render = () => {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-ko]').forEach(el => { el.textContent = el.dataset[lang]; });
+    document.querySelectorAll('[data-ko-title]').forEach(el => { el.title = el.dataset[lang + 'Title']; el.setAttribute('aria-label', el.title); });
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+    document.title = lang === 'ko' ? 'AI 학습 버튼이란? 무료 AI 플랜으로 쓰는 웹 도구 · The Ignition Bench' : 'What is the AI learning button? Web tools for your own AI · The Ignition Bench';
+  };
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.l; LS.set('ib-lang', lang); render(); }));
+  render();
+})();
+</script>
+</body>
+</html>
