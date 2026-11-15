@@ -26,6 +26,15 @@ var T = {
   }
 };
 
+var IC = [
+  '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6.5 6.5h.01"/>',
+  '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/>',
+  '<path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4z"/><path d="M8 8.5h8M8 11.5h5"/>',
+  '<rect x="3" y="4" width="7" height="6" rx="1.5"/><rect x="14" y="14" width="7" height="6" rx="1.5"/><path d="M10 7h4a3 3 0 0 1 3 3v4"/>'
+];
+T.ko.flow = ['도구 열기', '학습 글 복사', '내 AI에 붙여넣기', '결과 붙여넣기'];
+T.en.flow = ['Open tool', 'Copy text', 'Paste in AI', 'Paste result'];
+
 var lang = 'ko', el = null, lastFocus = null;
 
 function html(L){
@@ -35,6 +44,7 @@ function html(L){
     + '<div class="ib-ns">' + t.sheet + '</div>'
     + '<h2 id="ibNt">' + t.title + '</h2>'
     + '<p>' + t.p1 + '</p><p>' + t.p2 + '</p>'
+    + '<div class="ib-nf" aria-hidden="true">' + t.flow.map(function(f, i){ return '<span class="ib-ni"><i><svg viewBox="0 0 24 24">' + IC[i] + '</svg></i><em>' + f + '</em></span>'; }).join('') + '</div>'
     + '<ol class="ib-nl">' + t.steps.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ol>'
     + '<p>' + t.p3 + '</p>'
     + '<p class="ib-nv">' + t.view + '</p>'
