@@ -57,6 +57,7 @@
   .step{position:relative;border:1px solid var(--line);border-radius:12px;padding:14px 14px 13px;background:#fbfcfe}
   .step .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ember);color:#fff;font:800 13px var(--f-mono);margin-bottom:6px}
   .step b{display:block;font-size:15px;line-height:1.4;margin-bottom:3px}
+  .step .ic{position:absolute;top:12px;right:13px;width:26px;height:26px;fill:none;stroke:var(--ember);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .step span{display:block;font-size:13.5px;color:var(--dim);line-height:1.55}
   .step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--faint);font-weight:800;background:var(--card);line-height:1;z-index:1}
 
@@ -103,7 +104,7 @@
     .grid2,.grid3{grid-template-columns:1fr}
     .bar .sheet{display:none}
   }
-  @media (max-width:420px){ .flow{grid-template-columns:1fr} .step::after{display:none} }
+  @media (max-width:420px){ .flow{grid-template-columns:1fr;gap:20px} .step:not(:last-child)::after,.step:nth-child(2)::after{content:"↓";display:block;right:auto;left:50%;top:auto;bottom:-19px;transform:translateX(-50%)} }
 </style>
 </head>
 <body>
@@ -128,16 +129,16 @@
   </div>
 
   <div class="flow" role="list">
-    <div class="step" role="listitem"><span class="n">1</span>
+    <div class="step" role="listitem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6.5 6.5h.01"/></svg><span class="n">1</span>
       <b data-show="ko">도구 열기</b><b data-show="en">Open the tool</b>
       <span data-show="ko">로그인도 설치도 없이 브라우저에서 바로 열어요.</span><span data-show="en">Opens right in the browser — no sign-in, no install.</span></div>
-    <div class="step" role="listitem"><span class="n">2</span>
+    <div class="step" role="listitem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><span class="n">2</span>
       <b data-show="ko">AI 학습 글 복사</b><b data-show="en">Copy the learning text</b>
       <span data-show="ko">도구가 준비해 둔 설명서를 한 번에 복사해요.</span><span data-show="en">Copy the ready-made guide in one click.</span></div>
-    <div class="step" role="listitem"><span class="n">3</span>
+    <div class="step" role="listitem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4z"/><path d="M8 8.5h8M8 11.5h5"/></svg><span class="n">3</span>
       <b data-show="ko">내 AI에 붙여넣기</b><b data-show="en">Paste into your AI</b>
       <span data-show="ko">내가 쓰는 AI(무료 플랜도 괜찮아요)에 붙여넣고 하고 싶은 걸 말해요.</span><span data-show="en">Paste it into the AI you already use (a free plan is fine) and say what you want.</span></div>
-    <div class="step" role="listitem"><span class="n">4</span>
+    <div class="step" role="listitem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="6" rx="1.5"/><rect x="14" y="14" width="7" height="6" rx="1.5"/><path d="M10 7h4a3 3 0 0 1 3 3v4"/></svg><span class="n">4</span>
       <b data-show="ko">결과를 도구에 붙여넣기</b><b data-show="en">Paste the result back</b>
       <span data-show="ko">AI가 준 결과를 도구에 붙여넣으면 그림과 카드로 완성돼요.</span><span data-show="en">Paste what the AI gives you into the tool and it becomes a diagram or card.</span></div>
   </div>
