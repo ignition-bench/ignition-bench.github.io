@@ -12,7 +12,7 @@ var T = {
     steps: ['도구를 열고', 'AI 학습 글을 복사해서', '내가 쓰는 AI(무료 플랜도 괜찮아요)에 붙여넣고', '나온 결과를 도구에 붙여넣으면 그림과 카드로 완성돼요'],
     p3: '로그인도, 따로 내는 비용도 없어요. 지금은 <b>기획 도구</b>와 <b>사운드 작업대</b>에서 써 볼 수 있고, 다른 도구로 넓혀 가는 중이에요.',
     view: '<b>제 전망:</b> 이 방식이 AI를 처음 써 보는 사람에게 부담 없는 입구가 되고, 재미를 느낀 사람이 스스로 더 배우러 가는 길이 되면 좋겠어요. 같은 방식을 쓰는 곳을 아직 많이 찾지 못해서, 하나의 실험으로 시작합니다.',
-    go: '전체 보고서 읽기 →', close: '닫기', x: '닫기'
+    go: '전체 보고서 읽기 →', go2: '보고서 →', close: '닫기', x: '닫기'
   },
   en: {
     sheet: 'NOTICE · ABOUT',
@@ -22,7 +22,7 @@ var T = {
     steps: ['Open a tool,', 'copy its AI learning text,', 'paste it into the AI you already use (a free plan is fine),', 'then paste the result back into the tool — and it becomes a diagram or card.'],
     p3: 'No sign-in and no extra cost. You can try it now in the <b>Planner</b> and the <b>Sound Workbench</b>; more tools are on the way.',
     view: '<b>My outlook:</b> I hope this becomes a gentle entrance for people trying AI for the first time, and a path for those who enjoy it to keep learning on their own. I have not found many others doing the same, so I am starting it as an experiment.',
-    go: 'Read the full report →', close: 'Close', x: 'Close'
+    go: 'Read the full report →', go2: 'Report →', close: 'Close', x: 'Close'
   }
 };
 
@@ -41,6 +41,7 @@ function html(L){
   var t = T[L];
   return '<div class="ib-nc" role="dialog" aria-modal="true" aria-labelledby="ibNt" tabindex="-1">'
     + '<button type="button" class="ib-nx" aria-label="' + t.x + '">✕</button>'
+    + '<a class="ib-ngo2" href="ai-learning/">' + t.go2 + '</a>'
     + '<div class="ib-ns">' + t.sheet + '</div>'
     + '<h2 id="ibNt">' + t.title + '</h2>'
     + '<p>' + t.p1 + '</p><p>' + t.p2 + '</p>'

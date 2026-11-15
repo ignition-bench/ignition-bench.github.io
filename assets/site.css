@@ -170,6 +170,14 @@ html.ib-notice-on, html.ib-notice-on body{overflow:hidden}
 .ib-ngo:hover,.ib-ngo:focus-visible{background:#11304f;box-shadow:0 0 0 3px #ff7a2f66}
 .ib-nc2{background:none;border:1px solid #dbe3ef;color:#52617a;padding:9px 14px;border-radius:10px;font-size:14px}
 .ib-nc2:hover{border-color:#a8b6cc}
+.ib-ngo2{display:none}
+@media (min-width:481px){
+  .ib-nc h2{margin-right:170px}
+  .ib-ngo2{display:inline-block;position:absolute;top:16px;right:58px;background:#0d2541;color:#fff!important;text-decoration:none;font:700 12.5px/1.5 var(--f-ui);padding:4px 12px;border-radius:999px}
+  .ib-ngo2:hover,.ib-ngo2:focus-visible{background:#11304f;box-shadow:0 0 0 3px #ff7a2f66}
+  .ib-nx{width:36px;height:36px;top:11px;right:12px;background:#0d2541;border-color:#0d2541;color:#fff;font-size:16px}
+  .ib-nx:hover,.ib-nx:focus-visible{background:#ff7a2f;border-color:#ff7a2f;color:#fff}
+}
 @media (max-width:480px){
   .ib-notice{padding:10px} .ib-nc{padding:20px 17px 18px;font-size:14.5px;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px)} .ib-nc h2{font-size:19px}
   .ib-nf{display:none}
