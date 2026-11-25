@@ -1,7 +1,11 @@
 (function(){
 'use strict';
-var KEY = 'ib-notice-seen';
-var LS = { get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+var KEY_SESSION = 'ib-notice-closed';
+var KEY_UNTIL = 'ib-notice-until';
+var DAYS = 7;
+var LS = { get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del: function(k){ try { localStorage.removeItem(k); } catch(e){} } };
+var SS = { get: function(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }, set: function(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} } };
+LS.del('ib-notice-seen');
 
 var T = {
   ko: {
@@ -12,7 +16,7 @@ var T = {
     steps: ['도구를 열고', 'AI 학습 글을 복사해서', '내가 쓰는 AI(무료 플랜도 괜찮아요)에 붙여넣고', '나온 결과를 도구에 붙여넣으면 그림과 카드로 완성돼요'],
     p3: '로그인도, 따로 내는 비용도 없어요. 지금은 <b>기획 도구</b>와 <b>사운드 작업대</b>에서 써 볼 수 있고, 다른 도구로 넓혀 가는 중이에요.',
     view: '<b>제 전망:</b> 이 방식이 AI를 처음 써 보는 사람에게 부담 없는 입구가 되고, 재미를 느낀 사람이 스스로 더 배우러 가는 길이 되면 좋겠어요. 같은 방식을 쓰는 곳을 아직 많이 찾지 못해서, 하나의 실험으로 시작합니다.',
-    go: '전체 보고서 읽기 →', go2: '보고서 바로가기', close: '닫기', x: '닫기'
+    go: '전체 보고서 읽기 →', go2: '보고서 바로가기', close: '닫기', x: '닫기', skip: '7일 동안 보지 않기'
   },
   en: {
     sheet: 'NOTICE · ABOUT',
@@ -22,7 +26,7 @@ var T = {
     steps: ['Open a tool,', 'copy its AI learning text,', 'paste it into the AI you already use (a free plan is fine),', 'then paste the result back into the tool — and it becomes a diagram or card.'],
     p3: 'No sign-in and no extra cost. You can try it now in the <b>Planner</b> and the <b>Sound Workbench</b>; more tools are on the way.',
     view: '<b>My outlook:</b> I hope this becomes a gentle entrance for people trying AI for the first time, and a path for those who enjoy it to keep learning on their own. I have not found many others doing the same, so I am starting it as an experiment.',
-    go: 'Read the full report →', go2: 'Go to report', close: 'Close', x: 'Close'
+    go: 'Read the full report →', go2: 'Go to report', close: 'Close', x: 'Close', skip: "Don't show for 7 days"
   }
 };
 
@@ -35,7 +39,7 @@ var IC = [
 T.ko.flow = ['도구 열기', '학습 글 복사', '내 AI에 붙여넣기', '결과 붙여넣기'];
 T.en.flow = ['Open tool', 'Copy text', 'Paste in AI', 'Paste result'];
 
-var lang = 'ko', el = null, lastFocus = null;
+var lang = 'ko', el = null, lastFocus = null, skip = false;
 
 function html(L){
   var t = T[L];
@@ -48,7 +52,7 @@ function html(L){
     + '<ol class="ib-nl">' + t.steps.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ol>'
     + '<p>' + t.p3 + '</p>'
     + '<p class="ib-nv">' + t.view + '</p>'
-    + '<div class="ib-nb"><a class="ib-ngo" href="ai-learning/">' + t.go + '</a><button type="button" class="ib-nc2">' + t.close + '</button></div>'
+    + '<div class="ib-nb"><a class="ib-ngo" href="ai-learning/">' + t.go + '</a><label class="ib-nk"><input type="checkbox" class="ib-nkb"' + (skip ? ' checked' : '') + '> ' + t.skip + '</label><button type="button" class="ib-nc2">' + t.close + '</button></div>'
     + '</div>';
 }
 
@@ -57,6 +61,7 @@ function fill(){
   el.innerHTML = html(lang);
   el.querySelector('.ib-nx').addEventListener('click', close);
   el.querySelector('.ib-nc2').addEventListener('click', close);
+  el.querySelector('.ib-nkb').addEventListener('change', function(e){ skip = e.target.checked; });
   var c = el.querySelector('.ib-nc'); if (c && el.classList.contains('on')) c.focus({ preventScroll: true });
 }
 
@@ -64,7 +69,7 @@ function onKey(e){
   if (!el) return;
   if (e.key === 'Escape'){ e.preventDefault(); close(); return; }
   if (e.key !== 'Tab') return;
-  var f = el.querySelectorAll('a[href], button'); if (!f.length) return;
+  var f = el.querySelectorAll('a[href], button, input'); if (!f.length) return;
   var a = f[0], z = f[f.length - 1];
   if (e.shiftKey && (document.activeElement === a || document.activeElement === el.querySelector('.ib-nc'))){ e.preventDefault(); z.focus(); }
   else if (!e.shiftKey && document.activeElement === z){ e.preventDefault(); a.focus(); }
@@ -72,6 +77,7 @@ function onKey(e){
 
 function open(){
   if (el) return;
+  skip = false;
   lastFocus = document.activeElement;
   el = document.createElement('div'); el.className = 'ib-notice';
   fill();
@@ -85,7 +91,8 @@ function open(){
 
 function close(){
   if (!el) return;
-  LS.set(KEY, '1');
+  SS.set(KEY_SESSION, '1');
+  if (skip) LS.set(KEY_UNTIL, String(Date.now() + DAYS * 864e5));
   var box = el; el = null;
   removeEventListener('keydown', onKey);
   document.documentElement.classList.remove('ib-notice-on');
@@ -96,7 +103,7 @@ function close(){
 
 window.IBNotice = {
   open: open,
-  auto: function(){ if (LS.get(KEY)) return; setTimeout(open, 350); },
+  auto: function(){ if (SS.get(KEY_SESSION)) return; var u = +LS.get(KEY_UNTIL) || 0; if (u > Date.now()) return; setTimeout(open, 350); },
   setLang: function(l){ lang = l === 'en' ? 'en' : 'ko'; if (el) fill(); }
 };
 })();
