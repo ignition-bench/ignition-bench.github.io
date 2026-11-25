@@ -106,6 +106,11 @@ function setupRail(rail){
   addEventListener('resize', update);
   rail._update = update; update();
 }
+$$('[data-rail][data-shuffle]').forEach(rail => {
+  const cs = [...rail.querySelectorAll(':scope > .card')];
+  for (let i = cs.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [cs[i], cs[j]] = [cs[j], cs[i]]; }
+  cs.forEach(c => rail.appendChild(c));
+});
 $$('[data-rail]').forEach(setupRail);
 
 (function(){
