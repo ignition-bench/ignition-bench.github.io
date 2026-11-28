@@ -237,7 +237,7 @@ body.touch .ifld{min-height:42px; font-size:15px} body.touch .insp .ib2,body.tou
 .airow{display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center} .airow label{font-size:12.5px; color:var(--ink)}
 .airow select{min-height:40px; min-width:0; border-radius:10px; border:1px solid var(--chrome-line); background:var(--bp); color:var(--ink); padding:0 8px; font-size:13px}
 a.aigo{display:flex; align-items:center; justify-content:center; padding:0 16px; text-decoration:none; min-height:40px; white-space:nowrap}
-.ainote{margin:-2px 0 0; font-size:11.5px; color:var(--ink-dim); line-height:1.5} .ainote.ok{color:var(--ok, #6fe0a8)}
+.ainote{margin:-2px 0 0; font-size:11.5px; color:var(--ink-dim); line-height:1.5} .ainote.ok{color:var(--ok, #6fe0a8)} .ainote.aichr{margin-top:4px; color:#e8c27a} .ainote.aichr[hidden]{display:none}
 .aipr{display:grid; grid-template-columns:1fr 1fr; gap:8px; border-radius:14px; transition:box-shadow .3s} .aipr.next{box-shadow:0 0 0 2px var(--ember)}
 .aicode{height:22vh; min-height:110px; resize:vertical}
 .aiok{display:flex; justify-content:flex-end} .aiok .wide-btn{min-width:120px; padding:0 18px}
@@ -729,6 +729,7 @@ var T = {
   aiCodePh:["AI가 준 도면 코드가 여기 들어와요\n칸을 누르고 Ctrl+V 해도 돼요 (휴대폰은 길게 눌러 붙여넣기)","The plan code from your AI goes here\nYou can also click here and press Ctrl+V (phone: long-press → Paste)"],
   aiNoteGoogle:["AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창에 Ctrl+V","If you don’t see the guide in the AI chat → press Ctrl+V in the AI chat box"],
   aiNoteGoogleM:["AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창을 길게 눌러 붙여넣기","If you don’t see the guide in the AI chat → long-press the AI chat box → Paste"],
+  aiChrome:["ⓘ 크롬에서는 Google이 '이 검색을 계속하시겠습니까?' 확인 창을 띄울 수 있어요. 끝까지 스크롤한 뒤 「예, 계속합니다」를 눌러 주세요.","ⓘ In Chrome, Google may ask “Continue with this search?” — scroll to the bottom and choose “Yes, continue”."],
   aiNotePaste:["열리면 → AI 채팅 입력창에 Ctrl+V","When it opens → press Ctrl+V in the AI chat box"],
   aiNotePasteM:["열리면 → AI 채팅 입력창을 길게 눌러 붙여넣기","When it opens → long-press the AI chat box → Paste"],
   aiCopiedNote:["학습 글도 복사해 뒀어요 · AI 창이 비어 있으면 붙여 넣으세요","The guide is copied too · paste it if the AI box is empty"],
@@ -2555,7 +2556,7 @@ function openAiGuide(opt){
     '<div class="aiflow" aria-hidden="true">' + flow + '</div><p class="psub">' + esc(t("aiCap")) + '</p>' +
     '<div class="airow"><label for="aiSel">' + esc(t("aiModel")) + '</label><select id="aiSel">' + AI_PICKS.map(function(p){ return '<option value="' + p.k + '">' + esc(t(p.n)) + '</option>'; }).join("") + '</select>' +
     '<a class="wide-btn go aigo" id="aiGo" target="_blank" rel="noopener noreferrer" href="#">' + esc(t("aiLearn")) + '</a></div>' +
-    '<p class="ainote" id="aiNote"></p>' +
+    '<p class="ainote" id="aiNote"></p><p class="ainote aichr" id="aiChr"></p>' +
     '<div class="aipr" id="aiPr"><button type="button" class="wide-btn" id="aiPc">📋 ' + esc(t("aiPaste")) + '</button><button type="button" class="wide-btn" id="aiFl">📄 ' + esc(t("aiFile")) + '</button><input type="file" id="aiFi" accept=".json,application/json,text/plain" hidden></div>' +
     '<textarea class="mer aicode" id="aiCode" spellcheck="false" placeholder="' + esc(t("aiCodePh")) + '"></textarea><p class="perr" id="aiErr" hidden></p>' +
     '<div class="aiok"><button type="button" class="wide-btn go" id="aiOk">' + esc(t("aiOk")) + '</button></div>' +
@@ -2570,7 +2571,8 @@ function openAiGuide(opt){
   function noteFor(k){ return t((k === "google" ? "aiNoteGoogle" : "aiNotePaste") + (isPC ? "" : "M")); }
   function setPick(k){ pk = k; sel.value = k; var p = AI_PICKS.filter(function(x){ return x.k === k; })[0];
     go.href = p.url(txt);
-    note.className = "ainote"; note.textContent = noteFor(k); }
+    note.className = "ainote"; note.textContent = noteFor(k);
+    var chr = document.getElementById("aiChr"); if (chr){ chr.textContent = t("aiChrome"); chr.hidden = k !== "google"; } }
   sel.onchange = function(){ setPick(sel.value); LS.set(KEY_AIPICK, sel.value); };
   setPick(pk);
   function copyGuide(){

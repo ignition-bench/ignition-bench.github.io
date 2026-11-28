@@ -496,7 +496,7 @@ details.aipeek{margin-bottom:10px}details.aipeek summary{cursor:pointer;color:va
 .airow select{min-width:0;padding:7px 8px;font-size:13px;background:#0e1014;color:var(--text,#e6e9ef);border:1px solid var(--line);border-radius:7px}
 a.aigo{border:1px solid var(--ai);display:flex;align-items:center;justify-content:center;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;white-space:nowrap;cursor:pointer}
 a.aigo:focus-visible,.airow select:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
-.ainote{font-size:11.5px;color:var(--muted);margin:0 0 10px;line-height:1.5}.ainote.ok{color:#9fe8cf}
+.ainote{font-size:11.5px;color:var(--muted);margin:0 0 10px;line-height:1.5}.ainote.ok{color:#9fe8cf}.ainote.aichr{margin-top:-6px;color:#e8c27a}.ainote.aichr[hidden]{display:none}
 .aiget{border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin-bottom:10px;transition:box-shadow .3s,border-color .3s}.aiget>b{display:block;font-size:12px;margin-bottom:6px}
 .aiget.next{border-color:var(--ai);box-shadow:0 0 0 1px rgba(95,184,255,.35)}
 .btn2e{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}.btn2e button{padding:9px}
@@ -539,7 +539,7 @@ a.aigo:focus-visible,.airow select:focus-visible{outline:2px solid var(--ai);out
 <body>
 <header class="top">
   <a class="ib-home" id="ibHome" href="../" data-i18n-title="ibHome" aria-label="The Ignition Bench" hidden><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
-  <div class="brand"><span data-i18n="brand"></span> <span class="ver">v1.8</span><span id="modeChip" class="modechip" data-i18n="modeChip"></span><span id="dirtyDot" class="dot" data-i18n-title="unsaved" hidden></span></div>
+  <div class="brand"><span data-i18n="brand"></span> <span class="ver">v1.8.1</span><span id="modeChip" class="modechip" data-i18n="modeChip"></span><span id="dirtyDot" class="dot" data-i18n-title="unsaved" hidden></span></div>
   <div class="grp"><button id="btnAI" class="btn-ai" data-i18n="aiBtn" data-i18n-title="aiBtnTip"></button></div>
   <div class="grp">
     <button id="btnAdd" data-i18n="add"></button>
@@ -3872,6 +3872,7 @@ Object.assign(STR, {
   aiPkGoogle:['구글 AI 모드 (기본 · 로그인 없이)','Google AI Mode (default · no sign-in)'], aiPkGemini:['Gemini (직접 붙여 넣기)','Gemini (paste it yourself)'],
   aiNoteGoogle:['AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창에 Ctrl+V','If you don’t see the guide in the AI chat → press Ctrl+V in the AI chat box'],
   aiNoteGoogleM:['AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창을 길게 눌러 붙여넣기','If you don’t see the guide in the AI chat → long-press the AI chat box → Paste'],
+  aiChrome:["ⓘ 크롬에서는 Google이 '이 검색을 계속하시겠습니까?' 확인 창을 띄울 수 있어요. 끝까지 스크롤한 뒤 「예, 계속합니다」를 눌러 주세요.","ⓘ In Chrome, Google may ask “Continue with this search?” — scroll to the bottom and choose “Yes, continue”."],
   aiNotePaste:['열리면 → AI 채팅 입력창에 Ctrl+V','When it opens → press Ctrl+V in the AI chat box'],
   aiNotePasteM:['열리면 → AI 채팅 입력창을 길게 눌러 붙여넣기','When it opens → long-press the AI chat box → Paste'],
   aiLeave:['AI가 준 레시피 코드를 복사한 뒤 이 탭으로 돌아오세요','Copy the recipe code your AI gives you, then come back to this tab'],
@@ -4200,9 +4201,10 @@ function openAiGuide(){
   const go = document.createElement('a'); go.id = 'aiGo'; go.className = 'aigo go'; go.target = '_blank'; go.rel = 'noopener noreferrer'; go.textContent = t('aiLearn');
   row.append(lb, sel, go); bd.append(row);
   const note = el('div', 'ainote'); bd.append(note);
+  const chr = el('div', 'ainote aichr', t('aiChrome')); bd.append(chr);
   let pk = prefs.aiPick; if (!AI_PICKS.some(x => x.k === pk)) pk = 'google';
   const noteFor = k => t((k === 'google' ? 'aiNoteGoogle' : 'aiNotePaste') + (aiTouch() ? 'M' : ''));
-  const setPick = k => { pk = k; sel.value = k; const x = AI_PICKS.find(z => z.k === k); if (lib) go.href = x.url(txt); else go.removeAttribute('href'); note.className = 'ainote'; note.textContent = noteFor(k); };
+  const setPick = k => { pk = k; sel.value = k; const x = AI_PICKS.find(z => z.k === k); if (lib) go.href = x.url(txt); else go.removeAttribute('href'); note.className = 'ainote'; note.textContent = noteFor(k); chr.hidden = k !== 'google'; };
   sel.onchange = () => { setPick(sel.value); prefs.aiPick = sel.value; savePrefs(); };
   setPick(pk);
   go.addEventListener('click', e => {
