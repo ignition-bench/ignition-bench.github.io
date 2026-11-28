@@ -229,6 +229,30 @@ body.touch .ifld{min-height:42px; font-size:15px} body.touch .insp .ib2,body.tou
 .tut .tb button{font-size:13px; padding:6px 12px; border-radius:9px; border:1px solid var(--chrome-line); color:var(--ink-dim)} .tut .tb .go{margin-left:auto; background:linear-gradient(180deg,var(--ember-hi),var(--ember)); color:#1a0d05; border:0; font-weight:700} .tut .tw{margin-left:auto; font-size:12px; color:var(--ink-faint)}
 .tut.ok{border-color:rgba(95,211,154,.85)} .tut.ok p{color:var(--ok); font-weight:700}
 .hai.htu{border-color:var(--chrome-line); background:var(--chrome1)} .hai .ie{font-size:20px; width:22px; text-align:center; flex:none}
+.shx{margin-left:auto; flex:none; width:32px; height:32px; border-radius:10px; border:1px solid var(--chrome-line); background:var(--chrome1); color:var(--ink-dim); font-size:14px; line-height:1; cursor:pointer}
+.shx:hover{color:var(--ink); border-color:var(--ember)} .shx:focus-visible{outline:2px solid var(--ember); outline-offset:2px}
+.aiflow{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px 3px; padding:10px 8px; border-radius:12px; background:var(--chrome1); border:1px dashed var(--chrome-line)}
+.aif{display:inline-flex; flex-direction:column; align-items:center; gap:2px; min-width:54px; font-size:11px; color:var(--ink-dim); text-align:center} .aif em{font-style:normal; font-size:20px; line-height:1.1}
+.aif.end{color:var(--ember-hi); font-weight:700} .aia{font-style:normal; color:var(--ink-dim); font-size:12px; opacity:.7}
+.airow{display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center} .airow label{font-size:12.5px; color:var(--ink)}
+.airow select{min-height:40px; min-width:0; border-radius:10px; border:1px solid var(--chrome-line); background:var(--bp); color:var(--ink); padding:0 8px; font-size:13px}
+a.aigo{display:flex; align-items:center; justify-content:center; padding:0 16px; text-decoration:none; min-height:40px; white-space:nowrap}
+.ainote{margin:-2px 0 0; font-size:11.5px; color:var(--ink-dim); line-height:1.5} .ainote.ok{color:var(--ok, #6fe0a8)}
+.aipr{display:grid; grid-template-columns:1fr 1fr; gap:8px; border-radius:14px; transition:box-shadow .3s} .aipr.next{box-shadow:0 0 0 2px var(--ember)}
+.aicode{height:22vh; min-height:110px; resize:vertical}
+.aiok{display:flex; justify-content:flex-end} .aiok .wide-btn{min-width:120px; padding:0 18px}
+.aipeek > summary{cursor:pointer; font-size:12px; color:var(--ink-dim); padding:4px 0}
+@media (prefers-reduced-motion: reduce){ .aipr{transition:none} }
+@media (max-width:440px){ .aiflow{gap:3px 1px; padding:8px 4px} .aif{min-width:0; font-size:10px} .aif em{font-size:17px} .aia{font-size:10px} }
+.aipick{display:flex; flex-direction:column; gap:8px; margin:4px 0 2px} .aipick > b{font-size:13px; color:var(--ink)}
+.aipk-row{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.aipk{display:flex; flex-direction:column; align-items:flex-start; gap:2px; text-align:left; padding:9px 11px; border-radius:11px; border:1px solid var(--chrome-line); background:var(--chrome1); color:var(--ink); font-size:13px; font-weight:600; cursor:pointer}
+.aipk small{font-size:11px; font-weight:400; color:var(--ink-dim)}
+.aipk.on{border-color:var(--ember); box-shadow:0 0 0 2px rgba(255,140,60,.25) inset}
+.aipk:focus-visible, .aigo:focus-visible{outline:2px solid var(--ember); outline-offset:2px}
+a.aigo{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; text-decoration:none; padding:8px}
+a.aigo small{font-size:11px; font-weight:500; opacity:.8}
+.aior{margin:6px 0 0; font-size:11.5px; color:var(--ink-dim); text-align:center}
 .aiex{display:flex; flex-direction:column; gap:4px; padding:9px 11px; border-radius:11px; background:var(--chrome1); border:1px dashed var(--chrome-line); font-size:12.5px; color:var(--ink-dim)} .aiex b{color:var(--ink); font-size:12.5px}
 .hai{flex:none; display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 12px; border-radius:12px; border:1px solid rgba(255,122,47,.5); background:var(--ember-bg); color:var(--ink)} .hai .i{width:22px; height:22px; color:var(--ember-hi); flex:none} .hai b{display:block; font-size:13.5px} .hai small{display:block; font-size:11.5px; color:var(--ink-dim)}
 .row small{display:block; color:var(--ink-faint); font-size:12px; margin-top:1px}
@@ -694,6 +718,32 @@ var T = {
   v1Opened:["1기 다이어그램 파일을 바꿔서 열었어요","Opened a 1st-gen diagram file (converted)"], v2Opened:["1기 UI 빌더 파일을 바꿔서 열었어요","Opened a 1st-gen UI Builder file (converted)"],
   v1Lines:["이어지지 않은 선 %n개는 뺐어요","%n loose lines were left out"], outsideF:["폼 밖 컨트롤","Controls outside forms"], cvScr:["화면","screens"], cvCtl:["컨트롤","controls"], cvAct:["동작선","action lines"], cvBox:["상자","boxes"], cvEdge:["선","lines"], cvMemo:["메모","memos"]
 };
+
+(function(){ var add = {
+  aiPkGoogle:["구글 AI 모드 (기본 · 로그인 없이)","Google AI Mode (default · no sign-in)"],
+  aiPkGemini:["Gemini (직접 붙여 넣기)","Gemini (paste it yourself)"],
+  aiCap:["AI에게 이 도구를 알려 주면, 말로 설명한 기획을 AI가 도면 코드로 만들어 줘요","Teach your AI this tool — describe your idea in words and it writes the plan code"],
+  aiF1:["AI 학습","Teach AI"], aiF2:["AI와 대화","Chat with AI"], aiF3:["코드 붙여넣기","Paste code"], aiF4:["확인","OK"], aiF5:["도면 완성","Plan ready"],
+  aiModel:["모델 선택","Model"], aiLearn:["AI 학습","Teach AI"],
+  aiPaste:["코드 붙여넣기","Paste code"], aiFile:["JSON 파일","JSON file"], aiOk:["확인","OK"],
+  aiCodePh:["AI가 준 도면 코드가 여기 들어와요\n칸을 누르고 Ctrl+V 해도 돼요 (휴대폰은 길게 눌러 붙여넣기)","The plan code from your AI goes here\nYou can also click here and press Ctrl+V (phone: long-press → Paste)"],
+  aiNoteGoogle:["AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창에 Ctrl+V","If you don’t see the guide in the AI chat → press Ctrl+V in the AI chat box"],
+  aiNoteGoogleM:["AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창을 길게 눌러 붙여넣기","If you don’t see the guide in the AI chat → long-press the AI chat box → Paste"],
+  aiNotePaste:["열리면 → AI 채팅 입력창에 Ctrl+V","When it opens → press Ctrl+V in the AI chat box"],
+  aiNotePasteM:["열리면 → AI 채팅 입력창을 길게 눌러 붙여넣기","When it opens → long-press the AI chat box → Paste"],
+  aiCopiedNote:["학습 글도 복사해 뒀어요 · AI 창이 비어 있으면 붙여 넣으세요","The guide is copied too · paste it if the AI box is empty"],
+  aiNextNote:["AI가 코드를 주면 복사해서 아래 「코드 붙여넣기」 → 「확인」","When your AI gives the code, copy it → “Paste code” below → “OK”"],
+  aiMore:["더 보기 · 학습 글 직접 다루기","More · handle the guide yourself"],
+  closeX:["닫기","Close"],
+  aiLeavePc:["AI가 준 코드를 복사한 뒤 이 탭으로 돌아오세요","Copy the code your AI gives you, then come back to this tab"],
+  aiLeaveMob:["AI가 준 코드를 복사한 뒤 이 탭으로 돌아오세요 (안드로이드: 뒤로 · 아이폰: 왼쪽 위 ◀ 또는 탭 버튼)","Copy the code your AI gives you, then come back to this tab (Android: Back · iPhone: ◀ at top left or the tabs button)"],
+  aiBack:["돌아오셨네요! AI가 준 코드를 「코드 붙여넣기」 → 「확인」","Welcome back! Paste your AI’s code → “OK”"]
+}; for (var k in add) T[k] = add[k]; })();
+var AI_PICKS = [
+  {k:"google", n:"aiPkGoogle", url:function(q){ return "https://www.google.com/search?udm=50&q=" + encodeURIComponent(q); }},
+  {k:"gemini", n:"aiPkGemini", url:function(){ return "https://gemini.google.com/app"; }}
+];
+var KEY_AIPICK = "ib-planner-aipick";
 function t(k){ var e = T[k]; return e ? (lang === "en" ? e[1] : e[0]) : k; }
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 var KX = /((?:Ctrl|Shift|Alt|Space|Cmd)\s*\+\s*(?:[A-Za-z]+|[가-힣]+)|\b(?:Enter|Esc|Delete|Del|Backspace|Tab|Space|Ctrl|Shift)\b|[Dd]ouble-click|[Rr]ight-click|[Ll]ong-press|\bdrag\b|\bwheel\b|두 번 클릭|오른쪽 클릭|가운데 버튼|두 번 탭|길게 누르기|길게 눌러|끌어다 놓기|끌어서|끌기|휠)|(^|[\s·(/;])([VBLPM])(?=\s)/g;
@@ -1768,6 +1818,7 @@ function tap(g, e){
 
 var EX = null;
 function closeLayer(){
+  if (layer.querySelector && layer.querySelector(".sheet.aig")) LS.del(KEY_AIWAIT);
   lastBoxTap = null; closeInfo(); hideTip();
   if (MM) closeMemo();
   if (EX) closeExpand(true);
@@ -1778,6 +1829,7 @@ function closeLayer(){
 function openLayer(html, soft){
   layer.innerHTML = '<div class="scrim' + (soft ? ' soft' : '') + '" id="scrim"></div>' + html;
   document.getElementById("scrim").addEventListener("pointerdown", function(e){ e.preventDefault(); closeLayer(); });
+  var sh = layer.querySelector(".sheet > h3"); if (sh && !sh.querySelector(".shx")){ var x = document.createElement("button"); x.type = "button"; x.className = "shx"; x.setAttribute("aria-label", t("closeX")); x.title = t("closeX"); x.textContent = "✕"; x.onclick = function(){ closeLayer(); }; sh.appendChild(x); }
 }
 
 function readBody(body){
@@ -2373,11 +2425,27 @@ function autoLayout(boxes, edges){
   var mx = -1; function run(s){ var base = mx + 1; lv[s.id] = base; mx = Math.max(mx, base); var q = [s]; while (q.length){ var c = q.shift(); out[c.id].forEach(function(n){ if (lv[n] == null){ lv[n] = lv[c.id] + 1; mx = Math.max(mx, lv[n]); q.push(by[n]); } }); } }
   boxes.forEach(function(b){ if (!inc[b.id] && lv[b.id] == null) run(b); }); boxes.forEach(function(b){ if (lv[b.id] == null) run(b); });
   var rows = []; boxes.forEach(function(b){ (rows[lv[b.id]] = rows[lv[b.id]] || []).push(b); });
-  var R = rows.filter(Boolean).map(function(row){ var tw = 0, hmax = 0; row.forEach(function(b){ tw += b.w; hmax = Math.max(hmax, layout(b).h); }); return {b:row, w:tw + (row.length - 1) * 70, h:hmax}; });
+  rows = rows.filter(Boolean);
+  var pos = {}, prev = {}; edges.forEach(function(e){ if (by[e.from] && by[e.to]) (prev[e.to] = prev[e.to] || []).push(e.from); });
+  rows.forEach(function(row, ri){
+    if (ri) row.forEach(function(b, i){ var ps = (prev[b.id] || []).filter(function(p){ return pos[p] != null && lv[p] < lv[b.id]; }); b._k = ps.length ? ps.reduce(function(a, p){ return a + pos[p]; }, 0) / ps.length : 1e6 + i; });
+    if (ri) row.sort(function(a, b){ return a._k - b._k; });
+    row.forEach(function(b, i){ pos[b.id] = i; delete b._k; });
+  });
+  var R = rows.map(function(row){ var tw = 0, hmax = 0; row.forEach(function(b){ tw += b.w; hmax = Math.max(hmax, layout(b).h); }); return {b:row, w:tw + (row.length - 1) * 70, h:hmax}; });
+  var ri = {}; rows.forEach(function(row, i){ row.forEach(function(b){ ri[b.id] = i; }); });
+  var pairs = []; boxes.forEach(function(b){ out[b.id].forEach(function(n){ pairs.push([ri[b.id], ri[n]]); }); });
+  var okCut = function(c){ var n = 0; pairs.forEach(function(p){ if (Math.min(p[0], p[1]) < c && Math.max(p[0], p[1]) >= c) n++; }); return n <= 1; };
+  var cutsOK = []; for (var c = 1; c < R.length; c++) if (okCut(c)) cutsOK.push(c);
   var GY = 90, GX = 140, best = null;
   for (var n = 1; n <= Math.max(1, Math.ceil(R.length / 2)); n++){
-    var k = Math.ceil(R.length / n), cols = [], W = 0, H = 0;
-    for (var i = 0; i < R.length; i += k){ var g = R.slice(i, i + k), cw = 0, ch = 0; g.forEach(function(r){ cw = Math.max(cw, r.w); ch += r.h; }); ch += (g.length - 1) * GY; cols.push({g:g, w:cw}); W += cw; H = Math.max(H, ch); }
+    var cuts = [], last = 0, fail = false;
+    for (var j = 1; j < n; j++){ var tg = Math.round(j * R.length / n), pick = null;
+      cutsOK.forEach(function(cc){ if (cc >= last + 2 && cc <= R.length - 2 && (pick == null || Math.abs(cc - tg) < Math.abs(pick - tg))) pick = cc; });
+      if (pick == null){ fail = true; break; } cuts.push(pick); last = pick; }
+    if (fail) continue;
+    var bounds = [0].concat(cuts, [R.length]), cols = [], W = 0, H = 0;
+    for (var q = 0; q < bounds.length - 1; q++){ var g = R.slice(bounds[q], bounds[q + 1]), cw = 0, ch = 0; if (!g.length) continue; g.forEach(function(r){ cw = Math.max(cw, r.w); ch += r.h; }); ch += (g.length - 1) * GY; cols.push({g:g, w:cw}); W += cw; H = Math.max(H, ch); }
     W += (cols.length - 1) * GX; var sc = Math.abs(Math.log(W / Math.max(1, H) / 1.6));
     if (!best || sc < best.sc - .05) best = {sc:sc, cols:cols};
   }
@@ -2389,14 +2457,48 @@ function planFromText(txt){
   var o = null; try { o = JSON.parse(s); } catch(e){ try { o = JSON.parse(s.replace(/\/\/[^\n"]*$/gm, "").replace(/,\s*([}\]])/g, "$1").replace(/[“”]/g, '"')); } catch(e2){} }
   return o && typeof o === "object" ? o : null;
 }
+function fromForeign(src){
+  var fix = 1, list = Array.isArray(src.nodes) ? src.nodes : (Array.isArray(src.steps) ? src.steps : []), boxes = [], memos = [], memoIds = {};
+  var SH = {diamond:"diamond", decision:"diamond", choice:"diamond", question:"diamond", condition:"diamond", start:"pill", end:"pill", begin:"pill", finish:"pill", terminal:"pill", pill:"pill", input:"para", output:"para", io:"para", data:"cyl", database:"cyl", db:"cyl", circle:"circle", hex:"hex", hexagon:"hex"};
+  var pick = function(o, ks){ for (var i = 0; i < ks.length; i++){ var v = o[ks[i]]; if (v != null && v !== "") return v; } return ""; };
+  var txt = function(v){ return Array.isArray(v) ? v.map(function(x){ return x && typeof x === "object" ? (x.text || x.title || x.label || "") : String(x); }).join("\n") : String(v == null ? "" : v); };
+  list.forEach(function(nd){
+    if (!nd || typeof nd !== "object") return;
+    var ty = String(nd.type || nd.kind || nd.shape || "").toLowerCase();
+    var title = txt(pick(nd, ["title", "label", "name", "heading"]));
+    var desc = txt(pick(nd, ["body", "description", "desc", "content", "detail", "details", "note"]));
+    if (!title && nd.text != null){ title = txt(nd.text); } else if (!desc && nd.text != null){ desc = txt(nd.text); }
+    if (["memo", "note", "sticky", "tip", "comment", "annotation"].indexOf(ty) >= 0){
+      var m = {text:[title, desc].filter(Boolean).join("\n"), color:ty === "tip" || ty === "memo" ? "g" : "b"};
+      if (nd.attach != null) m.attach = nd.attach; else if (nd.attachTo != null) m.attach = nd.attachTo;
+      memos.push(m); if (nd.id != null) memoIds[String(nd.id)] = 1; fix++; return;
+    }
+    var items = nd.items || nd.checklist || nd.list || nd.todo, lines = desc ? [desc] : [];
+    if (Array.isArray(items)) items.forEach(function(it){ var v = it && typeof it === "object" ? (it.text || it.title || it.label || "") : String(it); lines.push((ty === "checklist" || ty === "todo" || nd.checklist ? "☐ " : "• ") + v); });
+    var b = {id:nd.id, title:title}; if (lines.length) b.body = lines.join("\n");
+    if (SH[ty]) b.shape = SH[ty]; else if (SH[String(nd.shape || "").toLowerCase()]) b.shape = SH[String(nd.shape).toLowerCase()];
+    ["fill", "glow", "kind", "form", "img"].forEach(function(k){ if (nd[k] != null) b[k] = nd[k]; });
+    boxes.push(b);
+  });
+  var el = Array.isArray(src.edges) ? src.edges : (Array.isArray(src.links) ? src.links : (Array.isArray(src.connections) ? src.connections : (Array.isArray(src.arrows) ? src.arrows : [])));
+  var edges = [];
+  el.forEach(function(e){ if (!e || typeof e !== "object") return;
+    var a = pick(e, ["from", "source", "src", "start"]), z = pick(e, ["to", "target", "dst", "end"]);
+    if (memoIds[String(a)] || memoIds[String(z)]){ fix++; return; }
+    var x = {from:a, to:z}; var lb = pick(e, ["label", "text", "name", "condition"]); if (lb) x.label = String(lb);
+    ["dir", "style"].forEach(function(k){ if (e[k] != null) x[k] = e[k]; }); edges.push(x); });
+  (Array.isArray(src.memos) ? src.memos : []).forEach(function(m){ if (m && typeof m === "object") memos.push(m); });
+  return {o:{app:"ignition-planner", kind:"plan", v:1, title:String(src.title || src.name || ""), boxes:boxes, edges:edges, memos:memos}, fix:fix};
+}
 function loadPlanObj(o, opts){
-  opts = opts || {}; var msg = t("opened"), conv = false;
+  opts = opts || {}; var msg = t("opened"), conv = false, ffix = 0;
+  if (o && !Array.isArray(o.boxes) && (Array.isArray(o.nodes) || Array.isArray(o.steps))){ var ff = fromForeign(o); o = ff.o; ffix = ff.fix; }
   if (o && Array.isArray(o.elements) && !o.boxes){
     var isUI = o.version === 2 || o.elements.some(function(x){ return x && x.type === "form"; });
     var cv = isUI ? fromUiV2(o.elements) : fromDiagramV1(o.elements); o = cv.doc; msg = cv.msg; conv = true; o.title = opts.name || "";
   }
   if (!o || !Array.isArray(o.boxes) || (!opts.paste && !(o.app === "ignition-planner" || o.edges))){ return false; }
-  var n = normPlan(o); if (!n.boxes.length && !n.memos.length) return false;
+  var n = normPlan(o); if (!n.boxes.length && !n.memos.length) return false; n.fix = (n.fix || 0) + ffix;
   commit(function(){
     doc.title = n.title; doc.boxes = n.boxes; doc.edges = n.edges; doc.memos = n.memos; doc.strokes = n.strokes; delete doc.sampleSig;
     if (n.lay) autoLayout(doc.boxes, doc.edges);
@@ -2435,16 +2537,73 @@ function openPaste(){
     if (!loadPlanObj(o, {paste:true})) chip(t("pasteBad"), "ember", 4200);
   };
 }
-function openAiGuide(){
-  var txt = aiGuideText();
-  openLayer('<div class="sheet aig"><div class="grab"></div><h3>🤖 ' + esc(t("aiTitle")) + '</h3><p class="psub">' + kx(t("aiHow")) + '</p>' +
-    '<ol class="aisteps"><li>' + kx(t("aiS1")) + '</li><li>' + kx(t("aiS2")) + '</li><li>' + kx(t("aiS3")) + '</li></ol>' +
-    '<div class="aiex"><b>💬 ' + esc(t("aiEx")) + '</b>' + ["aiEx1", "aiEx2", "aiEx3"].map(function(k){ return '<span>「' + esc(t(k)) + '」</span>'; }).join("") + '</div>' +
-    '<details class="aipeek"><summary>' + esc(t("aiPeek")) + '</summary><textarea class="mer" id="aiT" readonly></textarea></details>' +
-    '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px"><button type="button" class="wide-btn" id="aiMd">' + ic("save") + esc(t("aiMd")) + '</button><button type="button" class="wide-btn go" id="aiC">📋 ' + esc(t("aiCopy")) + '</button></div></div>');
+var KEY_AIWAIT = "ib-planner-aiwait", KEY_AIDRAFT = "ib-planner-aidraft";
+function aiResumeCheck(){
+  var ts = +LS.get(KEY_AIWAIT) || 0; if (!ts) return;
+  if (Date.now() - ts > 3600000){ LS.del(KEY_AIWAIT); return; }
+  var open = document.querySelector(".sheet.aig");
+  if (open){ var pr = document.getElementById("aiPr"), n = document.getElementById("aiNote"); if (pr) pr.classList.add("next"); if (n){ n.className = "ainote ok"; n.textContent = t("aiBack"); } return; }
+  if (layer.innerHTML) return;
+  openAiGuide({resume:true});
+}
+document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "visible") setTimeout(aiResumeCheck, 250); });
+window.addEventListener("pageshow", function(){ setTimeout(aiResumeCheck, 900); });
+function openAiGuide(opt){
+  opt = opt || {}; var txt = aiGuideText(), fname = "";
+  var flow = ["aiF1", "aiF2", "aiF3", "aiF4", "aiF5"].map(function(k, i){ return '<span class="aif' + (i === 4 ? ' end' : '') + '"><em>' + ["🤖", "💬", "📋", "✅", "🗺"][i] + '</em>' + esc(t(k)) + '</span>'; }).join('<i class="aia">→</i>');
+  openLayer('<div class="sheet aig"><div class="grab"></div><h3>🤖 ' + esc(t("aiTitle")) + '</h3>' +
+    '<div class="aiflow" aria-hidden="true">' + flow + '</div><p class="psub">' + esc(t("aiCap")) + '</p>' +
+    '<div class="airow"><label for="aiSel">' + esc(t("aiModel")) + '</label><select id="aiSel">' + AI_PICKS.map(function(p){ return '<option value="' + p.k + '">' + esc(t(p.n)) + '</option>'; }).join("") + '</select>' +
+    '<a class="wide-btn go aigo" id="aiGo" target="_blank" rel="noopener noreferrer" href="#">' + esc(t("aiLearn")) + '</a></div>' +
+    '<p class="ainote" id="aiNote"></p>' +
+    '<div class="aipr" id="aiPr"><button type="button" class="wide-btn" id="aiPc">📋 ' + esc(t("aiPaste")) + '</button><button type="button" class="wide-btn" id="aiFl">📄 ' + esc(t("aiFile")) + '</button><input type="file" id="aiFi" accept=".json,application/json,text/plain" hidden></div>' +
+    '<textarea class="mer aicode" id="aiCode" spellcheck="false" placeholder="' + esc(t("aiCodePh")) + '"></textarea><p class="perr" id="aiErr" hidden></p>' +
+    '<div class="aiok"><button type="button" class="wide-btn go" id="aiOk">' + esc(t("aiOk")) + '</button></div>' +
+    '<details class="aipeek"><summary>' + esc(t("aiMore")) + '</summary><textarea class="mer" id="aiT" readonly></textarea>' +
+    '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px"><button type="button" class="wide-btn" id="aiMd">' + ic("save") + esc(t("aiMd")) + '</button><button type="button" class="wide-btn" id="aiC">📋 ' + esc(t("aiCopy")) + '</button></div></details></div>');
   var ta = document.getElementById("aiT"); ta.value = txt;
   var ac = document.getElementById("aiC"); ac.onclick = function(){ copyText(txt, ta, ac, t("cpNext")); };
   document.getElementById("aiMd").onclick = function(){ saveBlob(new Blob([txt], {type:"text/markdown"}), "Ignition-Planner-AI-guide.md"); };
+  var sel = document.getElementById("aiSel"), go = document.getElementById("aiGo"), note = document.getElementById("aiNote"), pr = document.getElementById("aiPr");
+  var code = document.getElementById("aiCode"), er = document.getElementById("aiErr"), pk = LS.get(KEY_AIPICK);
+  if (!AI_PICKS.some(function(p){ return p.k === pk; })) pk = "google";
+  function noteFor(k){ return t((k === "google" ? "aiNoteGoogle" : "aiNotePaste") + (isPC ? "" : "M")); }
+  function setPick(k){ pk = k; sel.value = k; var p = AI_PICKS.filter(function(x){ return x.k === k; })[0];
+    go.href = p.url(txt);
+    note.className = "ainote"; note.textContent = noteFor(k); }
+  sel.onchange = function(){ setPick(sel.value); LS.set(KEY_AIPICK, sel.value); };
+  setPick(pk);
+  function copyGuide(){
+    var fb = function(){ try { var d = ta.closest("details"); var was = d.open; d.open = true; ta.focus(); ta.select(); document.execCommand("copy"); d.open = was; } catch(e){} };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(fb); else fb(); } catch(e){ fb(); }
+  }
+  go.addEventListener("click", function(){
+    copyGuide(); LS.set(KEY_AIWAIT, String(Date.now()));
+    note.className = "ainote ok"; note.textContent = t(isPC ? "aiLeavePc" : "aiLeaveMob") + " · " + noteFor(pk);
+    pr.classList.add("next");
+  });
+  var dr = LS.get(KEY_AIDRAFT); if (dr) code.value = dr;
+  var drT = null; code.addEventListener("input", function(){ clearTimeout(drT); drT = setTimeout(function(){ if (code.value.trim()) LS.set(KEY_AIDRAFT, code.value.slice(0, 200000)); else LS.del(KEY_AIDRAFT); }, 400); });
+  if (opt.resume){ pr.classList.add("next"); note.className = "ainote ok"; note.textContent = t("aiBack"); }
+  var showErr = function(m){ er.textContent = m; er.hidden = false; };
+  code.addEventListener("input", function(){ er.hidden = true; });
+  document.getElementById("aiPc").onclick = function(){
+    if (!(navigator.clipboard && navigator.clipboard.readText)){ code.focus(); showErr(t("pasteNoClip")); return; }
+    navigator.clipboard.readText().then(function(v){ code.value = v; er.hidden = true; code.scrollTop = 0; if (v.trim()) LS.set(KEY_AIDRAFT, v.slice(0, 200000)); }).catch(function(){ code.focus(); showErr(t("pasteNoClip")); });
+  };
+  var fi = document.getElementById("aiFi");
+  document.getElementById("aiFl").onclick = function(){ fi.value = ""; fi.click(); };
+  fi.onchange = function(){ var f = fi.files && fi.files[0]; if (!f) return; var rd = new FileReader();
+    rd.onload = function(){ code.value = String(rd.result || ""); fname = String(f.name || "").replace(/\.json$/i, "").slice(0, 60); er.hidden = true; code.scrollTop = 0; };
+    rd.onerror = function(){ showErr(t("notPlan")); }; rd.readAsText(f); };
+  document.getElementById("aiOk").onclick = function(){
+    if (!code.value.trim()){ showErr(t("pasteEmpty")); code.focus(); return; }
+    var o = planFromText(code.value); if (!o){ showErr(t("pasteBad")); return; }
+    if (FX) closeFocus();
+    if (!loadPlanObj(o, {paste:true, name:fname})){ showErr(t("pasteBad")); return; }
+    LS.del(KEY_AIWAIT); LS.del(KEY_AIDRAFT);
+    layer.innerHTML = "";
+  };
 }
 function aiGuideText(){
   var L1 = lang === "en" ? "English" : "Korean", ko = lang !== "en";
@@ -2464,13 +2623,15 @@ function aiGuideText(){
 "## Conversation steps",
 "1. Greet and introduce the tool in 2–3 sentences, then ask what they want to plan. Example (say it in the user's language): \"This tool turns any idea — a recipe, a trip, an app, a game — into a diagram of boxes and arrows. Tell me what you'd like to plan and I'll make the plan code for you. What shall we plan?\"",
 "2. If the idea is thin, ask up to 3 easy questions, one at a time, that fit the topic (recipe: \"Which kind?\", \"How many people?\" · app: \"What is the first screen?\", \"Where does each button go?\"). If the user says \"just make it\", choose sensible defaults.",
-"3. Make the plan code (rules below). Usually 4–15 boxes, short titles.",
-"4. Give it: if you can create files, attach it as `plan.json`, AND always also show the full code in ONE code block so it can be copied. Then tell the user how to open it (below).",
-"5. Ask what they'd like to change. For every change, send the whole updated code again.",
+"3. Choices first: if the user asks for recommendations or several options (\"recommend 3 courses\", \"give me a few ideas\") — or the topic clearly has several good ways — first list 2–3 options, one short line each, and ask which to turn into a plan: one, several, or all. Do NOT write plan code before they choose. One choice → draw just that one, start to finish, without a choice diamond (simpler). Several → one plan that branches from a diamond, one arrow per option. Skip this step if the user already said \"just make it\" or \"make them all\", or if the request has only one obvious plan.",
+"4. Make the plan code (rules below). Usually 4–15 boxes, short titles.",
+"5. Give it: if you can create files, attach it as `plan.json`, AND always also show the full code in ONE code block so it can be copied. Then tell the user how to open it (below).",
+"6. Ask what they'd like to change. For every change, send the whole updated code again.",
 "",
 "How to open (tell the user in their language, using these button names):",
-"- Got a file: in the planner press 📂 (top left) → " + nm("openFileL") + " → choose the file.",
-"- Otherwise: press Copy on the code block → in the planner press 📂 → " + nm("pasteL") + " → paste → " + nm("pasteOpen") + ".",
+"- Easiest: press Copy on the code block → back in the planner's 🤖 window (" + nm("aiTitle") + ") press " + nm("aiPaste") + " (or click the code box and paste) → " + nm("aiOk") + ".",
+"- Got a file: in the same 🤖 window press " + nm("aiFile") + " → choose the file → " + nm("aiOk") + ".",
+"- Also works: 📂 (top left) → " + nm("pasteL") + " or " + nm("openFileL") + ".",
 "- Do NOT teach saving a .json file with a text editor. If they want a file, say: open it in the planner, then press 💾.",
 "",
 "## Pick the right shapes for the idea",

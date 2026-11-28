@@ -492,6 +492,14 @@ body.libmode .item.sel{background:#2f2516}
 details.aipeek{margin-bottom:10px}details.aipeek summary{cursor:pointer;color:var(--muted);font-size:12px}
 .aibox textarea{width:100%;font:12px/1.5 ui-monospace,Consolas,monospace;color:#cfd6e2;background:#0e1014;border:1px solid var(--line);border-radius:7px;padding:8px;resize:vertical}
 .btn2{display:grid;grid-template-columns:1fr 1.4fr;gap:8px}.btn2 button{padding:9px}
+.airow{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin-bottom:4px}.airow label{font-size:12.5px}
+.airow select{min-width:0;padding:7px 8px;font-size:13px;background:#0e1014;color:var(--text,#e6e9ef);border:1px solid var(--line);border-radius:7px}
+a.aigo{border:1px solid var(--ai);display:flex;align-items:center;justify-content:center;padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:700;white-space:nowrap;cursor:pointer}
+a.aigo:focus-visible,.airow select:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.ainote{font-size:11.5px;color:var(--muted);margin:0 0 10px;line-height:1.5}.ainote.ok{color:#9fe8cf}
+.aiget{border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin-bottom:10px;transition:box-shadow .3s,border-color .3s}.aiget>b{display:block;font-size:12px;margin-bottom:6px}
+.aiget.next{border-color:var(--ai);box-shadow:0 0 0 1px rgba(95,184,255,.35)}
+.btn2e{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}.btn2e button{padding:9px}
 .anext{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;display:flex;align-items:center;gap:8px;font-size:12px}
 .anext button{margin-left:auto}
 .ares{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:8px 0}
@@ -531,7 +539,7 @@ details.aipeek{margin-bottom:10px}details.aipeek summary{cursor:pointer;color:va
 <body>
 <header class="top">
   <a class="ib-home" id="ibHome" href="../" data-i18n-title="ibHome" aria-label="The Ignition Bench" hidden><svg viewBox="28 12 30 40" width="18" height="18" aria-hidden="true"><path d="M41 49 C 29 45, 31 32, 36 25 C 37 31, 40 32, 41 30 C 42 24, 41 18, 46 14 C 48 24, 54 29, 52 39 C 51 45, 47 49, 41 49Z" fill="#ff7a2f"/></svg></a>
-  <div class="brand"><span data-i18n="brand"></span> <span class="ver">v1.7.1</span><span id="modeChip" class="modechip" data-i18n="modeChip"></span><span id="dirtyDot" class="dot" data-i18n-title="unsaved" hidden></span></div>
+  <div class="brand"><span data-i18n="brand"></span> <span class="ver">v1.8</span><span id="modeChip" class="modechip" data-i18n="modeChip"></span><span id="dirtyDot" class="dot" data-i18n-title="unsaved" hidden></span></div>
   <div class="grp"><button id="btnAI" class="btn-ai" data-i18n="aiBtn" data-i18n-title="aiBtnTip"></button></div>
   <div class="grp">
     <button id="btnAdd" data-i18n="add"></button>
@@ -3763,8 +3771,8 @@ function startMainTour(){
      text:L2('<b>⚙ 설정</b>에서 <b>📦 라이브러리 만들기 모드</b>를 켜면, 창고 이름을 붙여 「📦 꾸러미」로 저장할 수 있어요. 여러 소리를 겹쳐 새 소리를 만들 땐 탭 줄 맨 앞 <b>🧩 재료</b>를 써 보세요.',
              'Turn on <b>📦 Library-making mode</b> in <b>⚙</b> to save a named “📦 pack” for the library. To build a new sound from several, try <b>🧩 Layers</b> at the start of the tab row.')},
     {target:'#btnAI', title:L2('⑪ 🤖 AI로 만들기','⑪ 🤖 Make with AI'),
-     text:L2('만드는 일은 AI에게 맡기고, 듣고 고르고 다듬는 건 여기서 해요. <b>🤖 AI로 만들기</b>를 눌러 3단계 설명을 열어 보세요 (지금은 보기만 하고 닫아도 돼요).',
-             'Leave the making to AI; listen, pick and polish here. Press <b>🤖 Make with AI</b> to see the 3 steps (just look, then close).'),
+     text:L2('만드는 일은 AI에게 맡기고, 듣고 고르고 다듬는 건 여기서 해요. <b>🤖 AI로 만들기</b>를 눌러 보세요 — 모델을 고르고 <b>AI 학습</b>을 누르면 새 탭에서 AI가 바로 안내를 시작하고, 받은 코드는 <b>📋 코드 붙여넣기</b>로 가져와요 (지금은 보기만 하고 닫아도 돼요).',
+             'Leave the making to AI; listen, pick and polish here. Press <b>🤖 Make with AI</b> — pick a model and press <b>Teach AI</b>: the AI starts in a new tab, and you bring its code back with <b>📋 Paste code</b> (just look, then close).'),
      wait:() => tour.flags.aiOpened},
     {title:L2('완료 🎉','Done 🎉'),
      text:L2('한 바퀴를 다 돌았어요. 궁금한 기능은 <b>❓ 도움말</b>에서 단어로 찾거나, 설정 상자 제목 옆 <b>❓</b>를 눌러 보세요.','That’s the whole round. Search any feature in <b>❓ Help</b>, or press <b>❓</b> beside a panel title.')}
@@ -3840,10 +3848,9 @@ Object.assign(STR, {
   eLib:['📚 라이브러리에서 고르기','📚 Pick from the library'], eAdd:['＋ 내 음원 가져오기','＋ Add my audio'],
   eDrop:['음원 파일을 이 화면에 끌어다 놓아도 돼요','You can also drop audio files onto this screen'],
   aiTitle:['🤖 AI로 효과음 만들기','🤖 Make sound effects with AI'],
-  aiHow:['쓰고 있는 AI(제미나이 · ChatGPT · Claude 등)에게 <b>이 작업대 쓰는 법</b>을 알려 주는 글이에요. 붙여 넣으면 AI가 무엇을 만들지 물어보고, 작업대가 읽을 수 있는 <b>레시피 코드</b>를 만들어 줘요.',
-         'This text teaches the AI you use (Gemini, ChatGPT, Claude…) <b>how this workbench works</b>. Paste it in and your AI asks what you want, then writes <b>recipe code</b> the workbench can read.'],
-  aiS1t:['학습 글 복사','Copy the guide'], aiS1d:['아래 파란 단추 하나면 끝','Just the blue button below'],
-  aiS2t:['내 AI에 붙여 넣고 말하기','Paste into your AI and ask'], aiS2d:['AI가 질문 1~3개 → 2~3가지 버전의 레시피 코드','A few questions → recipe code in 2–3 versions'],
+  aiHow:['AI에게 <b>이 작업대 쓰는 법</b>을 알려 주면, 원하는 소리를 말로 설명했을 때 AI가 방향을 추천하고 고른 것을 <b>레시피 코드</b>로 만들어 줘요.','Teach your AI <b>how this workbench works</b> — describe the sound you want, the AI suggests directions and writes <b>recipe code</b> for the one you pick.'],
+  aiS1t:['🤖 AI 학습','🤖 Teach AI'], aiS1d:['모델 고르고 [AI 학습] → 새 탭에서 AI가 안내 시작','Pick a model → [Teach AI] → the AI starts in a new tab'],
+  aiS2t:['💬 AI와 대화','💬 Chat with the AI'], aiS2d:['원하는 소리 말하기 → AI가 방향 2~3가지 추천 → 고르면 레시피 코드','Say the sound → 2–3 directions → pick → recipe code'],
   aiS3t:['📥 코드 붙여 넣기','📥 Paste the code'], aiS3d:['작업 목록에 A · B · C로 들어와요 → 듣고 고르기','They join the list as A · B · C → listen and pick'],
   aiLibOk:['📚 <b>{name}</b> · 재료 {n}개 목록이 학습 글에 같이 들어가요','📚 <b>{name}</b> · the list of {n} sounds goes into the guide'],
   aiLibNo:['⚠ 라이브러리가 안 열려 있어요. AI는 라이브러리 재료를 겹쳐 만들기 때문에 먼저 열어야 해요','⚠ No library is open. AI builds sounds from library sounds, so open one first'],
@@ -3861,6 +3868,18 @@ Object.assign(STR, {
   aiExCopied:['💬 복사했어요: 「{s}」','💬 Copied: “{s}”'],
   aiNext:['✅ AI가 레시피 코드를 줬나요?','✅ Got recipe code from your AI?'],
   aiPasteBtn:['📥 레시피 코드 붙여 넣기','📥 Paste recipe code'],
+  aiModel:['모델 선택','Model'], aiLearn:['🤖 AI 학습','🤖 Teach AI'],
+  aiPkGoogle:['구글 AI 모드 (기본 · 로그인 없이)','Google AI Mode (default · no sign-in)'], aiPkGemini:['Gemini (직접 붙여 넣기)','Gemini (paste it yourself)'],
+  aiNoteGoogle:['AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창에 Ctrl+V','If you don’t see the guide in the AI chat → press Ctrl+V in the AI chat box'],
+  aiNoteGoogleM:['AI 대화창에 학습 글이 보이지 않으면 → AI 채팅 입력창을 길게 눌러 붙여넣기','If you don’t see the guide in the AI chat → long-press the AI chat box → Paste'],
+  aiNotePaste:['열리면 → AI 채팅 입력창에 Ctrl+V','When it opens → press Ctrl+V in the AI chat box'],
+  aiNotePasteM:['열리면 → AI 채팅 입력창을 길게 눌러 붙여넣기','When it opens → long-press the AI chat box → Paste'],
+  aiLeave:['AI가 준 레시피 코드를 복사한 뒤 이 탭으로 돌아오세요','Copy the recipe code your AI gives you, then come back to this tab'],
+  aiBack:['돌아오셨네요! AI가 준 답을 통째로 붙여 넣으세요','Welcome back! Paste your AI’s whole answer'],
+  aiGet:['AI가 준 레시피 코드 가져오기','Bring in the recipe code from your AI'],
+  aiPasteNow:['📋 코드 붙여넣기','📋 Paste code'], aiFile:['📄 JSON 파일','📄 JSON file'],
+  aiClipNo:['브라우저가 바로 붙여넣기를 막았어요 · 아래 칸을 누르고 Ctrl+V 해 주세요','The browser blocked direct paste · click the box below and press Ctrl+V'],
+  aiMore:['더 보기 · 학습 글 직접 다루기','More · handle the guide yourself'],
   pasteTitle:['📥 레시피 코드 붙여 넣기','📥 Paste recipe code'],
   pasteHow:['AI가 준 답을 <b>통째로</b> 붙여 넣으세요 (앞뒤 말은 알아서 걸러요). 코드 파일이면 이 창에 끌어다 놓아도 돼요. 지금 작업은 그대로 두고 <b>작업 목록에 더해요</b>.',
             'Paste your AI’s <b>whole</b> answer (extra words are ignored), or drop a code file here. Your current work stays — the sounds are <b>added</b> to the list.'],
@@ -3965,8 +3984,8 @@ function aiGuideText(){
 "- Never say \"JSON\". Call the code **recipe code**" + (ko ? " (Korean: 「레시피 코드」)" : "") + ".",
 "- In your first reply only: introduce yourself in 2 lines (you make sound effects by layering the sounds in their library), then ask what sound they want and give 2–3 example requests.",
 "- If the request is vague, ask at most 1–3 short questions: what game or scene, the feel (heavy, cute, sci-fi, retro…), roughly how long, and whether it repeats (loop). If it is already clear, skip the questions.",
-"- Then give **2–3 versions at once** (A · B · C) that differ in a clear way (e.g. A = punchy, B = heavier, C = far away). Describe each in one line, then put ALL versions in ONE code block.",
-"- After the code, tell the user exactly: copy the whole code → in the workbench press " + nm('aiBtn') + " → " + nm('aiPasteBtn') + " → paste → listen to A · B · C and pick. They can polish the one they like with the workbench's effect tabs.",
+"- **Choices first.** Before writing any code, suggest 2–3 clearly different directions, one short line each (e.g. A = short and sharp, B = heavier and bigger, C = indoor with echo), and ask which to make — one, several, or all. Do NOT write recipe code before the user picks. Then make only the picked ones, all in ONE code block (ids ending _a, _b, _c). Skip asking only if the user already said to just make it, or to make them all.",
+"- After the code, tell the user exactly: copy the whole code → back in the workbench's 🤖 window press " + nm('aiPasteNow') + " (or press " + nm('aiBtn') + " → " + nm('aiPasteBtn') + " and paste) → listen to the versions and pick. They can polish the one they like with the workbench's effect tabs.",
 "- When the user asks for changes (they may paste their current recipe code with a request, from the " + nm('aiFixBtn') + " button), send the **whole** updated code again in one block — never only a part.",
 "- Be honest about limits: if nothing in the library is close (e.g. no footsteps), say so, make the closest version you can, and suggest adding matching sounds (e.g. free CC0 packs) to the library.",
 "",
@@ -4141,7 +4160,7 @@ async function aiHeadroom(sd, n){
 
 let aiState = {view:null, items:null, prev:null};
 function aiStopPrev(){ if (aiState.prev){ try { aiState.prev.src.stop(); } catch(e){} aiState.prev = null; } document.querySelectorAll('#aiBox .arow .play').forEach(b => { b.textContent = '▶'; b.classList.remove('on'); }); }
-function closeAi(){ aiStopPrev(); $('#aiModal').hidden = true; aiState.view = null; }
+function closeAi(){ aiStopPrev(); $('#aiModal').hidden = true; aiState.view = null; lsDel(AI_WAIT); }
 function aiShell(title, back){
   const box = $('#aiBox'); box.innerHTML = '';
   const hd = el('div', 'mhead'); hd.append(el('b', null, title));
@@ -4152,6 +4171,15 @@ function aiShell(title, back){
   $('#aiModal').hidden = false; $('#expPop').hidden = true;
   return bd;
 }
+const AI_PICKS = [
+  {k:'google', n:'aiPkGoogle', url:q => 'https://www.google.com/search?udm=50&q=' + encodeURIComponent(q)},
+  {k:'gemini', n:'aiPkGemini', url:() => 'https://gemini.google.com/app'}
+];
+const AI_WAIT = 'swb_aiwait', AI_DRAFT = 'swb_aidraft';
+const lsGet = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+const lsDel = k => { try { localStorage.removeItem(k); } catch(e){} };
+const aiTouch = () => { try { return matchMedia('(pointer:coarse)').matches; } catch(e){ return false; } };
 function openAiGuide(){
   aiStopPrev(); stopPlayback(true); tourFlag('aiOpened');
   const bd = aiShell(t('aiTitle')); aiState.view = 'guide';
@@ -4164,32 +4192,71 @@ function openAiGuide(){
   if (lib){ ll.innerHTML = '<span>' + t('aiLibOk', {name:escA(lib.name), n:lib.items.length}) + '</span>'; }
   else { ll.append(el('span', null, t('aiLibNo'))); const ob = btn(t('aiLibOpen'), () => { closeAi(); setSideTab('lib'); }); ll.append(ob); }
   bd.append(ll);
+  const txt = lib ? aiGuideText() : '';
+  const row = el('div', 'airow');
+  const lb = el('label', null, t('aiModel')); lb.htmlFor = 'aiSel';
+  const sel = document.createElement('select'); sel.id = 'aiSel';
+  AI_PICKS.forEach(x => { const o = document.createElement('option'); o.value = x.k; o.textContent = t(x.n); sel.append(o); });
+  const go = document.createElement('a'); go.id = 'aiGo'; go.className = 'aigo go'; go.target = '_blank'; go.rel = 'noopener noreferrer'; go.textContent = t('aiLearn');
+  row.append(lb, sel, go); bd.append(row);
+  const note = el('div', 'ainote'); bd.append(note);
+  let pk = prefs.aiPick; if (!AI_PICKS.some(x => x.k === pk)) pk = 'google';
+  const noteFor = k => t((k === 'google' ? 'aiNoteGoogle' : 'aiNotePaste') + (aiTouch() ? 'M' : ''));
+  const setPick = k => { pk = k; sel.value = k; const x = AI_PICKS.find(z => z.k === k); if (lib) go.href = x.url(txt); else go.removeAttribute('href'); note.className = 'ainote'; note.textContent = noteFor(k); };
+  sel.onchange = () => { setPick(sel.value); prefs.aiPick = sel.value; savePrefs(); };
+  setPick(pk);
+  go.addEventListener('click', e => {
+    if (!lib){ e.preventDefault(); return toast(t('aiLibNo'), 4000); }
+    copyTxt(txt); lsSet(AI_WAIT, String(Date.now())); tourFlag('aiCopied');
+    note.className = 'ainote ok'; note.textContent = t('aiLeave') + ' · ' + noteFor(pk);
+    s1.classList.remove('here'); s2.classList.add('here'); gr.classList.add('next');
+  });
   const ex = el('div', 'aiex'); const eh = el('b'); eh.innerHTML = t('aiEx') + '<span class="muted" style="font-weight:400">' + t('aiExTap') + '</span>'; ex.append(eh);
   const chips = el('div', 'chips');
   ['aiEx1', 'aiEx2', 'aiEx3', 'aiEx4', 'aiEx5'].forEach(k => chips.append(btn(t(k), async () => { await copyTxt(t(k)); toast(t('aiExCopied', {s:t(k)})); })));
   ex.append(chips, el('div', 'hint2', t('aiExHint'))); bd.append(ex);
-  const txt = lib ? aiGuideText() : '';
-  const pk = el('details', 'aipeek'); pk.append(el('summary', null, t('aiPeek')));
-  const ta = el('textarea'); ta.rows = 8; ta.readOnly = true; ta.value = txt; ta.id = 'aiGuideTa'; pk.append(ta); bd.append(pk);
-  const b2 = el('div', 'btn2');
+  const gr = el('div', 'aiget'); gr.append(el('b', null, '📥 ' + t('aiGet')));
+  const g2 = el('div', 'btn2e');
+  const pb = btn(t('aiPasteNow'), async () => {
+    let v = '';
+    try { v = await navigator.clipboard.readText(); } catch(e){ v = null; }
+    if (v && v.trim()){ lsSet(AI_DRAFT, v.slice(0, 200000)); openAiPaste(v); }
+    else { openAiPaste(''); if (v === null) toast(t('aiClipNo'), 5000); }
+  }); pb.className = 'go'; pb.id = 'aiToPaste';
+  const fi = document.createElement('input'); fi.type = 'file'; fi.accept = '.json,application/json,text/plain'; fi.hidden = true;
+  fi.onchange = () => { const f = fi.files && fi.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => openAiPaste(String(rd.result || '')); rd.readAsText(f); };
+  const fb = btn(t('aiFile'), () => { fi.value = ''; fi.click(); });
+  g2.append(pb, fb, fi); gr.append(g2); bd.append(gr);
+  const pk2 = el('details', 'aipeek'); pk2.append(el('summary', null, t('aiMore')));
+  const ta = el('textarea'); ta.rows = 8; ta.readOnly = true; ta.value = txt; ta.id = 'aiGuideTa'; pk2.append(ta);
+  const b2 = el('div', 'btn2'); b2.style.marginTop = '8px';
   const md = btn(t('aiMd'), () => saveBlob('Sound-Workbench-AI-guide.md', new Blob([txt], {type:'text/markdown'})));
   const cp = btn(t('aiCopy'), async () => {
     const ok = await copyTxt(txt);
-    if (!ok){ pk.open = true; ta.focus(); ta.select(); return toast(t('copyFail'), 5000); }
+    if (!ok){ pk2.open = true; ta.focus(); ta.select(); return toast(t('copyFail'), 5000); }
     cp.textContent = t('aiCopied'); s1.classList.remove('here'); s2.classList.add('here'); tourFlag('aiCopied');
   });
-  cp.className = 'go'; cp.id = 'aiCopy';
+  cp.id = 'aiCopy';
   if (!lib){ md.disabled = true; cp.disabled = true; }
-  b2.append(md, cp); bd.append(b2);
-  const nx = el('div', 'anext'); nx.append(el('span', null, t('aiNext')));
-  const pb = btn(t('aiPasteBtn'), () => openAiPaste('')); pb.className = 'go'; pb.id = 'aiToPaste'; nx.append(pb); bd.append(nx);
+  b2.append(md, cp); pk2.append(b2); bd.append(pk2);
 }
+function aiResumeCheck(){
+  const ts = +lsGet(AI_WAIT) || 0; if (!ts) return;
+  if (Date.now() - ts > 3600000){ lsDel(AI_WAIT); return; }
+  if (aiState.view === 'paste'){ const n = $('#aiBackNote'); if (n) n.hidden = false; return; }
+  openAiPaste('', true);
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') setTimeout(aiResumeCheck, 250); });
+window.addEventListener('pageshow', () => setTimeout(aiResumeCheck, 1500));
 function escA(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c])); }
-function openAiPaste(text){
+function openAiPaste(text, back){
   aiStopPrev(); stopPlayback(true);
   const bd = aiShell(t('pasteTitle'), true); aiState.view = 'paste'; aiState.items = null;
+  const bn = el('div', 'ainote ok', t('aiBack')); bn.id = 'aiBackNote'; bn.hidden = !back; bd.append(bn);
   const p = el('p', 'psub'); p.innerHTML = t('pasteHow'); bd.append(p);
+  if (!text){ const d = lsGet(AI_DRAFT); if (d) text = d; }
   const ta = el('textarea'); ta.id = 'aiPasteTa'; ta.rows = 6; ta.placeholder = t('pastePh'); ta.value = text || ''; bd.append(ta);
+  let drT = null; ta.addEventListener('input', () => { clearTimeout(drT); drT = setTimeout(() => { if (ta.value.trim()) lsSet(AI_DRAFT, ta.value.slice(0, 200000)); else lsDel(AI_DRAFT); }, 400); });
   const rd = btn(t('pasteRead'), () => aiRead(ta.value)); rd.id = 'aiRead';
   const row = el('div', 'anext'); row.style.cssText = 'border-top:0;margin-top:4px;padding-top:0'; row.append(rd); bd.append(row);
   const res = el('div'); res.id = 'aiRes'; bd.append(res);
@@ -4262,7 +4329,7 @@ function aiAdd(items){
     if (old && replace){ const i = sounds.indexOf(old); sounds.splice(i, 1, x.sd); if (cur === old) cur = null; }
     else { if (old) x.sd.id = uniqueId(x.sd.id); sounds.push(x.sd); }
   }
-  closeAi(); setDirty(true); renderList(); selectSound(use[0].sd); setSideTab('mine');
+  closeAi(); lsDel(AI_DRAFT); setDirty(true); renderList(); selectSound(use[0].sd); setSideTab('mine');
   toast(t('aiAdded', {n:use.length}), 4500); tourFlag('aiAdded');
 }
 
